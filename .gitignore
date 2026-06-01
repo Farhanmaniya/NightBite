@@ -1,0 +1,96 @@
+# Node.js
+node_modules/
+
+# Build outputs
+dist/
+build/
+frontend/build/
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Misc
+*.pem
+*.tgz
+*.gz
+*.local
+*.swp
+
+# Docker
+.env.docker
+docker-compose.override.yml
+# Node.js
+node_modules/
+
+# Build outputs
+dist/
+build/
+frontend/build/
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Misc
+*.pem
+*.tgz
+*.gz
+*.local
+*.swp
+
+# Docker
+.env.docker
+docker-compose.override.yml
