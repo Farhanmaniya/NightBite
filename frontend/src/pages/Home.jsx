@@ -2,76 +2,31 @@ import Hero from "../components/Hero";
 import MenuCard from "../components/MenuCard";
 import Footer from "../components/Footer";
 import OfferBanner from "../components/OfferBanner";
+import { useState, useEffect } from "react";
 import { Flame, Sparkles, Star } from "lucide-react";
+import API from "../api/axios";
+import Loader from "../components/Loader";
 
 const Home = () => {
-  const menuItems = [
-    {
-      id: 1,
-      name: "Crispy Fries",
-      category: "Sides",
-      price: 99,
-      image: "🍟",
-      tag: "popular",
-    },
-    {
-      id: 2,
-      name: "Chicken Burger",
-      category: "Burgers",
-      price: 199,
-      image: "🍔",
-      tag: "popular",
-    },
-    {
-      id: 3,
-      name: "Veg Spring Rolls",
-      category: "Starters",
-      price: 149,
-      image: "🥗",
-      tag: "new",
-    },
-    {
-      id: 4,
-      name: "Paneer Butter Masala",
-      category: "Main Course",
-      price: 249,
-      image: "🍽️",
-      tag: "featured",
-    },
-    {
-      id: 5,
-      name: "Margherita Pizza",
-      category: "Pizza",
-      price: 299,
-      image: "🍕",
-      tag: "featured",
-    },
-    {
-      id: 6,
-      name: "Mango Lassi",
-      category: "Drinks",
-      price: 79,
-      image: "🥤",
-      tag: "new",
-    },
-    {
-      id: 7,
-      name: "Chocolate Brownie",
-      category: "Desserts",
-      price: 149,
-      image: "🍩",
-      tag: "popular",
-    },
-    {
-      id: 8,
-      name: "Chicken Tikka",
-      category: "Starters",
-      price: 229,
-      image: "🍗",
-      tag: "featured",
-    },
-  ];
+  const [menuItems, setMenuItems ] = useState([]);
+  const [loading, setLoading ] = useState([]);
 
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const response = await API.get("/menu");
+        setMenuItems(response.data);
+      } catch(error) {
+        console.log(error);
+      }finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenu();
+  }, []);
+
+  if (loading) return <Loader />;
   return (
     <main style={{ backgroundColor: "#0F172A", minHeight: "100vh" }}>
       <Hero />

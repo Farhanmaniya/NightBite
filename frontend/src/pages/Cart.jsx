@@ -1,10 +1,39 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-
+import { useState } from "react";
+import API from "../api/axios";
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart,  } = useCart();
+  const [address, setAddress] = useState("");
+  const handlePlaceOrder = async () => {
+    try {
+      const orderData = {
+        items: cartItems.map((item) => ({
+          menuItem: item._id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        totalAmount: total,
+        address,
+        paymentMethod: "COD",
+      };
+
+      const response = await API.post("/orders", orderData);
+
+      console.log(response.data);
+
+      alert("Order placed successfully!");
+      clearCart();
+      setAddress("");
+
+    } catch (error) {
+      console.log(error);
+      alert(error.response?.data?.message || "Order failed");
+    }
+  };
 
   // Calculate total before return
   const total = cartItems.reduce(
@@ -42,7 +71,7 @@ const Cart = () => {
             ) : (
               cartItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="bg-[#1E293B] rounded-2xl p-4 border border-[#334155] flex items-center gap-4"
                 >
                   {/* Image */}
@@ -64,7 +93,7 @@ const Cart = () => {
                   {/* Quantity Controls */}
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => updateQuantity(item.id, -1)}
+                      onClick={() => updateQuantity(item._id, -1)}
                       className="w-7 h-7 rounded-lg bg-[#334155] text-[#F1F5F9] hover:bg-[#1E293B] flex items-center justify-center transition-all"
                     >
                       -
@@ -73,7 +102,7 @@ const Cart = () => {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.id, +1)}
+                      onClick={() => updateQuantity(item._id, +1)}
                       className="w-7 h-7 rounded-lg bg-[#FF6B35] text-[#F1F5F9] hover:bg-[#FF8255] flex items-center justify-center transition-all"
                     >
                       +
@@ -82,7 +111,7 @@ const Cart = () => {
 
                   {/* Remove Button */}
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item._id)}
                     className="text-[#94A3B8] hover:text-red-400 transition-colors ml-2"
                   >
                     <X className="w-4 h-4" />
@@ -96,7 +125,9 @@ const Cart = () => {
           <div className="w-full lg:w-80 flex flex-col gap-4">
             {/* summary will go here */}
             <div className="bg-[#1E293B] rounded-2xl p-6 border border-[#334155] flex flex-col gap-4">
-              <h2 className="text-[#F1F5F9] font-bold text-lg">Order Summary</h2>
+              <h2 className="text-[#F1F5F9] font-bold text-lg">
+                Order Summary
+              </h2>
 
               {/* Coupon Input */}
               <div className="flex gap-2">
@@ -110,6 +141,19 @@ const Cart = () => {
                 </button>
               </div>
 
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-[#F1F5F9] font-medium">
+                  Delivery Address
+                </label>
+
+                <textarea
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter delivery address"
+                  rows={3}
+                  className="bg-[#0f172A] border border-[#334155] rounded-xl px-3 py-2 text-sm text-[#F1F5F9] placeholder-[#64748B] outline-none focus:border-[#FF6B35] transition-all resize-none"
+                />
+              </div>
               {/* Price Breakdown */}
               <div className="flex flex-col gap-3 border-t border-[#334155] pt-4">
                 <div className="flex justify-between text-sm">
@@ -117,17 +161,22 @@ const Cart = () => {
                   <span className="text-[#F1F5F9] font-medium">₹{total}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                    <span className="text-[#94A3B8]">Delivery</span>
-                    <span className="font-medium text-[#22C55E]">Free</span>
+                  <span className="text-[#94A3B8]">Delivery</span>
+                  <span className="font-medium text-[#22C55E]">Free</span>
                 </div>
                 <div className="flex justify-between text-sm border-t border-[#334155] pt-3">
-                    <span className="text-[#F1F5F9] font-bold">Total</span>
-                    <span className="text-[#FF6B35] font-bold text-lg">₹{total}</span>
+                  <span className="text-[#F1F5F9] font-bold">Total</span>
+                  <span className="text-[#FF6B35] font-bold text-lg">
+                    ₹{total}
+                  </span>
                 </div>
               </div>
 
               {/* Place Order Button */}
-              <button className="w-full bg-[#FF6B35] hover:bg-[#FF8255] text-[#F1F5F9] font-bold py-3 rounded-xl transition-all duration-200 active:scale-95">
+              <button
+                className="w-full bg-[#FF6B35] hover:bg-[#FF8255] text-[#F1F5F9] font-bold py-3 rounded-xl transition-all duration-200 active:scale-95"
+                onClick={handlePlaceOrder}
+              >
                 Place Order →
               </button>
             </div>

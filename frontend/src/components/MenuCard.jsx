@@ -9,7 +9,7 @@ const MenuCard = ({ item}) => {
         >
             {/* Image Section */}
             <div className="h-36 bg-[#F1F1F1] flex items-center justify-center text-6xl">
-                {item.image}
+                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
             </div>
 
             {/* Info Section */}

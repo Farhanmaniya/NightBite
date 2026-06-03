@@ -36,6 +36,14 @@ const Navbar = () => {
     { label: "Orders", path: "/orders" },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.href = "/";
+  };
+
+  const user = JSON.parse(localStorage.getItem("user"));
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -104,9 +112,9 @@ const Navbar = () => {
             <div className="absolute top-14 right-0 w-56 bg-[#1E293B] border border-[#334155] rounded-2xl shadow-xl shadow-black/40 z-50 overflow-hidden">
               {/* User Info  */}
               <div className="px-4 py-3 border-b border-[#334155]">
-                <p className="text-[#F1F5F9] font-semibold text-sm">John Doe</p>
+                <p className="text-[#F1F5F9] font-semibold text-sm">{user?.name}</p>
                 <p className="text-zinc-500 text-xs mt-0.5">
-                  johndoe@example.com
+                  {user?.email}
                 </p>
               </div>
 
@@ -131,7 +139,7 @@ const Navbar = () => {
               {/* Logout */}
               <div className="border-t border-[#334155] py-2">
                 <button
-                  onClick={() => {}}
+                  onClick={handleLogout}
                   className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-[#1E293B] transition-all w-full"
                 >
                   <span className="text-base">

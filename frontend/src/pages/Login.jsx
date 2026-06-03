@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { LogIn } from "lucide-react";
+import API from "../api/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,13 +24,32 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return;
+      return ;
     }
-    navigate("/home");
+
+    try {
+      const response = await API.post("/auth/login", {
+        email: form.email,
+        password: form.password
+      });
+
+      // Save token and user to localStorage
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      // Navigate based on role
+      if (response.data.user.role === "admin") {
+        navigate("/admin/dashboard");
+      }else {
+        navigate("/home");
+      }
+    } catch (error) {
+      setErrors({ email: error.response?.data?.message || "Login failed" });
+    }
   };
 
   return (

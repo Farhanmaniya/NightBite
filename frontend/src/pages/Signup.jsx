@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import API from "../api/axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -25,13 +26,25 @@ const Signup = () => {
     return newErrors;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    navigate("/home");
+    try {
+      const response = await API.post("/auth/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password
+      });
+
+      alert(response.data.message);
+
+      navigate("/");
+    } catch (error) {
+      alert (error.response?.data?.message || "Registration failed");
+    }
   };
 
   return (
