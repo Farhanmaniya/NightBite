@@ -55,15 +55,44 @@ const createMenuItem = async (req, res) => {
 // @desc Update menu item
 const updateMenuItem = async (req, res) => {
   try {
-    const item = await MenuItem.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!item) {
-      return res.status(404).json({ message: "Item not found" });
+    const { name, description, price, category, tag } = req.body;
+
+    const existingItem = await MenuItem.findById(req.params.id);
+
+    if (!existingItem) {
+      return re.status(404).json({
+        message: "Item not found",
+      });
     }
-    res.status(200).json(item);
+
+    let imageUrl = existingItem.image;
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+
+      imageUrl = result.secure_url;
+    }
+
+    const updatedItem = await MenuItem.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        description,
+        price,
+        category,
+        tag,
+        image: imageUrl,
+      },
+      {
+        new: true,
+      },
+    );
+
+    res.status(200).json(updatedItem);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).josn({
+      message: error.message,
+    });
   }
 };
 

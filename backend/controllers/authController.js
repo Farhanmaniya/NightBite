@@ -55,9 +55,7 @@ const UserLogin = async (req, res) => {
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res
-        .status(400)
-        .json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
     // Generate JWT token
@@ -83,4 +81,76 @@ const UserLogin = async (req, res) => {
   }
 };
 
-module.exports = { UserRegister, UserLogin };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password").sort({ createdAt: -1 });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const { name, phone, address } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, phone, address },
+      { new: true}
+    ).select("-password");
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user){
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getDashboardStats = async (req, res) => {
+  try {
+    const Order = require("../models/Order");
+    const MenuItem = require("../models/MenuItem");
+
+    const totalOrders = await Order.countDocuments();
+    const totalUsers = await User.countDocuments();
+    const totalMenuItems = await MenuItem.countDocuments();
+
+    // Calculate total revenues
+    const revenueData = await Order.aggregate([
+      { $match: { status: { $ne: "Cancelled" } } },
+      { $group: { _id: null, total: { $sum: "$totalAmount" } } },
+    ]);
+    const revenue = revenueData[0]?.total || 0;
+
+    // Recent orders
+    const recentOrders = await Order.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json({
+      totalOrders,
+      totalUsers,
+      totalMenuItems,
+      revenue,
+      recentOrders,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { UserRegister, UserLogin, getAllUsers, updateProfile, getProfile, getDashboardStats};

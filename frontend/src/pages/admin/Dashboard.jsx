@@ -1,25 +1,54 @@
 import { Package, IndianRupee, Users, UtensilsCrossed } from "lucide-react";
 import AdminLayout from "../../components/admin/AdminLayout";
+import API from "../../api/axios";
+import Loader from "../../components/Loader";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await API.get("/auth/dashboard");
+        setStats(res.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <AdminLayout>
-      <div className="flex flex-col gap-8">
+      <div
+        className="flex flex-col gap-8"
+        style={{ fontFamily: "'Poppins', sans-serif" }}
+      >
         {/* Page Title */}
-        <h1
-          className="text-white font-bold text-2xl"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-        >
-          Dashboard
-        </h1>
+        <h1 className="text-white font-bold text-2xl">Dashboard</h1>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Total Orders", value: "120", icon: Package },
-            { label: "Revenue", value: "₹45,000", icon: IndianRupee },
-            { label: "Total Users", value: "80", icon: Users },
-            { label: "Menu Items", value: "24", icon: UtensilsCrossed },
+            { label: "Total Orders", value: stats?.totalOrders, icon: Package },
+            {
+              label: "Revenue",
+              value: `₹${stats?.revenue}`,
+              icon: IndianRupee,
+            },
+            { label: "Total Users", value: stats?.totalUsers, icon: Users },
+            {
+              label: "Menu Items",
+              value: stats?.totalMenuItems,
+              icon: UtensilsCrossed,
+            },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -43,34 +72,34 @@ const Dashboard = () => {
             </h2>
           </div>
           <div className="flex flex-col">
-            {[
-              { id: 1001, name: "John Doe", total: 477, status: "Preparing" },
-              { id: 1002, name: "Jane Smith", total: 99, status: "Delivered" },
-              { id: 1003, name: "Raj Patel", total: 597, status: "Cancelled" },
-            ].map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                <span className="text-zinc-400 text-sm">#{order.id}</span>
-                <span className="text-white text-sm font-medium">
-                  {order.name}
-                </span>
-                <span className="text-white text-sm">₹{order.total}</span>
-                <span
-                  className={`text-xs font-bold px-3 py-1 rounded-full ${
-                    order.status === "Delivered"
-                      ? "bg-green-500/20 text-green-400"
-                      : order.status === "Preparing"
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : "bg-red-500/20 text-red-400"
-                  }`}
-                >
-                  {order.status}
-                </span>
+            {stats?.recentOrders?.length === 0 ? (
+              <div className="text-center text-zinc-500 py-8 text-sm">
+                No orders yet.
               </div>
-            ))}
+            ) : (
+              stats?.recentOrders?.map((order) => (
+                <div
+                  key={order._id}
+                  className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  <span className="text-zinc-400 text-sm">
+                    #{order._id.slice(-6)}
+                  </span>
+                  <span className="text-white text-sm font-medium">
+                    {order.user?.name || "N/A"}
+                  </span>
+                  <span className="text-white text-sm">
+                    ₹{order.totalAmount}
+                  </span>
+                  <span
+                    className={`text-xs font-bold px-3 py-1 rounded-full ${order.status === "Delivered" ? "bg-green-500/20 text-green-400" : order.status === "Preparing" ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

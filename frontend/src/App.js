@@ -13,13 +13,24 @@ import AdminMenu from "./pages/admin/AdminMenu";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import Menu from "./pages/Menu";
+import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./pages/NotFound";
 
 // 👇 This component controls WHERE Navbar shows up
 const Layout = ({ children }) => {
   const location = useLocation();
 
   // Pages where Navbar should NOT appear
-  const hideNavbarOn = ["/", "/signup", "/admin", "/admin/dashboard", "/admin/orders", "/admin/menu", "/admin/users", "/admin/coupons"];
+  const hideNavbarOn = [
+    "/",
+    "/signup",
+    "/admin",
+    "/admin/dashboard",
+    "/admin/orders",
+    "/admin/menu",
+    "/admin/users",
+    "/admin/coupons",
+  ];
 
   const shouldShowNavbar = !hideNavbarOn.includes(location.pathname);
 
@@ -40,21 +51,88 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* App pages — Navbar visible */}
-          <Route path="/home" element={<Home />} />
-
           {/* Add more routes below as we build */}
           {/* <Route path="/restaurants" element={<Restaurants />} /> */}
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/menu" element={<AdminMenu />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/coupons" element={<AdminCoupons />} />
+
+          {/* User routes - wrap with ProtectedRoute */}
+          <Route path="/home" element={<Home />} />
+
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/menu" element={<Menu />} />
+
+          {/* Admin routes - wrap with adminOnly */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute adminOnly>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminOrders />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/menu"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminMenu />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/coupons"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminCoupons />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </BrowserRouter>

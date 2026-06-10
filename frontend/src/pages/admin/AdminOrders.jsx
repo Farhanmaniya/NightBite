@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import API from "../../api/axios";
 import { IndianRupee } from "lucide-react";
 import Loader from "../../components/Loader";
+import toast from "react-hot-toast";  
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const updateStatus = async (id, status) => {
+    const toastId = toast.loading("Updating order status...");
     try {
       const response = await API.put(`/orders/${id}`, {
         status,
@@ -17,8 +19,12 @@ const AdminOrders = () => {
       setOrders((prev) =>
         prev.map((order) => (order._id === id ? response.data : order)),
       );
+      toast.dismiss(toastId);
+      toast.success("Order status updated successfully!");
     } catch (error) {
       console.log(error);
+      toast.dismiss(toastId);
+      toast.error("Failed to update order status");
     }
   };
 

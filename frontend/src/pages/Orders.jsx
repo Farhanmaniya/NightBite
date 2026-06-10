@@ -13,7 +13,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await API.post("/orders/my");
+        const response = await API.get("/orders/my");
 
         setOrders(response.data);
       } catch (error) {
@@ -27,14 +27,6 @@ const Orders = () => {
 
   if (loading) return <Loader />
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white">
-        Loading orders...
-      </div>
-    );
-  }
-
   return (
     <div
       className="min-h-screen px-4 py-24"
@@ -45,7 +37,7 @@ const Orders = () => {
     >
       <div className="max-w-3xl mx-auto">
         {/* Page title */}
-        <h1 className="text-[#F1F5F9] font-bold text-2xl mb-8"><span className="flex gap-2 flex-cols"><Package className="text-[#F6B835] items-center" size={27}/> My Orders</span></h1>
+        <h1 className="text-[#F1F5F9] font-bold text-2xl mb-8"><span className="flex gap-2 items-center"><Package className="text-[#F6B835] items-center" size={27}/> My Orders</span></h1>
 
         {/* Orders List */}
         <div className="flex flex-col gap-4">

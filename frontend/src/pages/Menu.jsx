@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import CategoryStrip from "../components/CategoryStrip";
 import MenuCard from "../components/MenuCard";
 import { Utensils } from "lucide-react";
@@ -8,8 +9,12 @@ import API from "../api/axios";
 const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading ] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const urlSearch = searchParams.get("search") || "";
 
+  const [search, setSearch] = useState(urlSearch);
   useEffect(() => {
     const fetchMenu = async () => {
       try {
@@ -24,7 +29,7 @@ const Menu = () => {
     fetchMenu();
   }, []);
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
   // const menuItems = [
   //   {
   //     id: 1,
@@ -93,8 +98,13 @@ const Menu = () => {
   // ];
 
   const filteredItems = menuItems.filter((item) => {
-    if (selectedCategory === "All") return true;
-    return item.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "All" || item.category === selectedCategory;
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -112,6 +122,16 @@ const Menu = () => {
             <Utensils className="w-6 h-6" /> Our Menu
           </span>
         </h1>
+
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search menu..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#1E293B] border border-[#334155] rounded-xl px-4 py-3 text-[#F1F5F9] text-sm outline-none focus:border-[#FF6B35] transition-all placeholder-[#64748B]"
+          />
+        </div>
 
         {/* Category Filter */}
         <div className="mb-6">

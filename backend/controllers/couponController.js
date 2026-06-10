@@ -79,9 +79,24 @@ const validateCoupon = async (req, res) => {
   }
 };
 
+const toggleCoupon = async (req, res) => {
+  try {
+    const coupon = await Coupon.findById(req.params.id);
+    if (!coupon) {
+      return res.status(404).json({ message: "Coupon not found" });
+    }
+    coupon.isActive = !coupon.isActive;
+    await coupon.save();
+    res.status(200).json(coupon);
+  }catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllCoupons,
   createCoupon,
   deleteCoupon,
   validateCoupon,
+  toggleCoupon,
 };

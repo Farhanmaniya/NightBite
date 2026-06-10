@@ -4,6 +4,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { LogIn } from "lucide-react";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,15 +41,17 @@ const Login = () => {
       // Save token and user to localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-
+      toast.success("Welcome Back! ");
       // Navigate based on role
       if (response.data.user.role === "admin") {
         navigate("/admin/dashboard");
       }else {
         navigate("/home");
       }
+
     } catch (error) {
       setErrors({ email: error.response?.data?.message || "Login failed" });
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 

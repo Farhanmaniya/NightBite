@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import API from "../../api/axios";
 // import Button from "../../components/Button";
 import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const AdminMenu = () => {
   const [items, setItems] = useState([]);
@@ -53,9 +54,10 @@ const AdminMenu = () => {
     fetchItems();
   }, []);
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
   const createItem = async () => {
+    const toastId = toast.loading("Adding menu item...");
     try {
       const formData = new FormData();
 
@@ -89,8 +91,16 @@ const AdminMenu = () => {
       setPreview("");
 
       setIsDrawerOpen(false);
+
+      //on Success
+      toast.dismiss(toastId);
+      toast.success("Menu item added successfully!");
     } catch (error) {
       console.log(error);
+
+      // On Failure
+      toast.dismiss(toastId);
+      toast.error("Failed to add menu item");
     }
   };
 
@@ -99,10 +109,58 @@ const AdminMenu = () => {
       await API.delete(`/menu/${id}`);
 
       setItems((prev) => prev.filter((item) => item._id !== id));
+      toast.success("Menu item deleted successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Failed to delete menu item");
     }
   };
+
+  const updateItem = async (id) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("name", form.name);
+      formData.append("description", form.description);
+      formData.append("price", form.price);
+      formData.append("category", form.category);
+      formData.append("tag", form.tag);
+
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      const response = await API.put(`/menu/${editingId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setItems((prev) =>
+        prev.map((item) => (item._id === editingId ? response.data : item)),
+      );
+
+      setIsDrawerOpen(false);
+      setIsEditing(false);
+      setEditingId(null);
+
+      setForm({
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        image: null,
+        tag: "popular",
+      });
+
+      setPreview("");
+      toast.success("Menu item updated successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update menu item");
+    }
+  };
+
   return (
     <>
       {/* Drawer Backdrop */}
@@ -122,7 +180,9 @@ const AdminMenu = () => {
             {/* All Inputs */}
 
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white text-xl font-bold">{isEditing ? "Edit Menu Item" : "Add Menu Item"}</h2>
+              <h2 className="text-white text-xl font-bold">
+                {isEditing ? "Edit Menu Item" : "Add Menu Item"}
+              </h2>
 
               <button
                 onClick={() => setIsDrawerOpen(false)}
@@ -218,7 +278,7 @@ const AdminMenu = () => {
               Cancel
             </button>
             <button
-              onClick={createItem}
+              onClick={isEditing ? updateItem : createItem}
               className="flex-1 bg-[#FF6B35] hover:bg-[#FF8255] text-white font-semibold py-3 rounded-xl"
             >
               {isEditing ? "Update Item" : "Save Item"}
@@ -276,7 +336,10 @@ const AdminMenu = () => {
 
                 {/* Actions */}
                 <div className="flex items-center gap-2">
-                  <button className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all" onClick={() => openEditDrawer(item)}>
+                  <button
+                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
+                    onClick={() => openEditDrawer(item)}
+                  >
                     <Pencil className="w-3.5 h-3.5"></Pencil>
                   </button>
                   <button

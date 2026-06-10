@@ -18,7 +18,7 @@ router.get("/:id", getMenuItemById);
 
 // Admin only routes
 router.post("/", protect, adminOnly, upload.single("image"), createMenuItem);
-router.put("/:id", protect, adminOnly, updateMenuItem);
+router.put("/:id", protect, adminOnly, upload.single("image"), updateMenuItem);
 router.delete("/:id", protect, adminOnly, deleteMenuItem);
 
 module.exports = router;

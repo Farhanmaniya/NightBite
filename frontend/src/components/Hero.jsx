@@ -7,7 +7,7 @@ const Hero = () => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    if (query.trim()) navigate(`/restaurants?search=${query}`);
+    if (query.trim()) navigate(`/menu?search=${query}`);
   };
 
   const handleKeyDown = (e) => {

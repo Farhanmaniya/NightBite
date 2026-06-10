@@ -15,6 +15,18 @@ const placeOrder = async (req, res) => {
       discount,
     });
 
+    if (couponCode) {
+      const Coupon = require("../models/Coupon");
+      const updatedCoupon = await Coupon.findOneAndUpdate(
+        { code: couponCode },
+        { $inc: { usedCount: 1 } },
+        { new: true },
+      );
+
+      if (updatedCoupon && updatedCoupon.usedCount >= updatedCoupon.maxUses) {
+        await Coupon.findByIdAndUpdate(updatedCoupon._id, { isActive: false });
+      }
+    }
     res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });

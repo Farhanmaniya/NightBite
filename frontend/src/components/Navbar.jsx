@@ -10,6 +10,7 @@ const Navbar = () => {
   const { cartItems } = useCart();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const token = localStorage.getItem("token");
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   useEffect(() => {
@@ -19,6 +20,16 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const [cartAnimate, setCartAnimate ] = useState(false);
+
+  useEffect(() => {
+    if (cartCount > 0){
+      setCartAnimate(true);
+      setTimeout(() => setCartAnimate(false), 300);
+    }
+  }, [cartCount]);
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -87,14 +98,17 @@ const Navbar = () => {
         </div>
 
         {/* RIGHT SIDE — Cart + Profile */}
-        <div className="hidden md:flex items-center gap-3" ref={dropdownRef}>
+        {token ? (
+          <div className="hidden md:flex items-center gap-3" ref={dropdownRef}>
           {/* Cart Icon */}
           <Link
             to="/cart"
             className="relative p-2 rounded-xl text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all duration-200"
           >
             <ShoppingCart className="w-5 h-5" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6B35] text-[#F1F5F9] text-[10px] font-bold rounded-full flex items-center justify-center">
+            <span className={`absolute -top-1 -right-1 w-4 h-4 bg-[#FF6b35] text-white text-[10px] font-bold rounded-full flex items-center justify-center transition-all duration-300 ${
+                cartAnimate ? "scale-125" : "scale-100"
+              }`}>
               {cartCount}
             </span>
           </Link>
@@ -159,6 +173,15 @@ const Navbar = () => {
             Login
           </Link> */}
         </div>
+        ): (
+          <Link
+    to="/"
+    className="hidden md:flex items-center gap-2 bg-[#FF6B35] hover:bg-[#ff8255] text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-all"
+  >
+    Login
+  </Link>
+        )}
+        
 
         {/* MOBILE — Hamburger */}
         <button

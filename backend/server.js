@@ -1,9 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const routes = require("./routes/authRoute");
+// const routes = require("./routes/authRoute");
 
 // Load env variables
 dotenv.config();
@@ -12,12 +12,17 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:5173"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
-    res.json({ message: "NightBite API is running."});
+  res.json({ message: "NightBite API is running." });
 });
 
 // Routes — we'll add these later
@@ -25,9 +30,10 @@ app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/menu", require("./routes/menuRoute"));
 app.use("/api/orders", require("./routes/orderRoute"));
 app.use("/api/coupons", require("./routes/couponRoute"));
+app.use("/api/payment", require("./routes/paymentRoute"));
 
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

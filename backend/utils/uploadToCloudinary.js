@@ -6,6 +6,15 @@ const uploadToCloudinary = (fileBuffer) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         folder: "nightbite",
+        transformation: [
+          {
+            width: 800,
+            height: 600,
+            crop: "fit",
+            quality: "auto",
+            fetch_format: "auto",
+          },
+        ],
       },
       (error, result) => {
         if (error) reject(error);
