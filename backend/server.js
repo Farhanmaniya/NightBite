@@ -14,7 +14,12 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173", "https://night-bite-azure.vercel.app/"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://night-bite-azure.vercel.app",
+      "https://night-bite-ciy5.vercel.app",
+    ],
     credentials: true,
   }),
 );
@@ -31,7 +36,7 @@ app.use("/api/menu", require("./routes/menuRoute"));
 app.use("/api/orders", require("./routes/orderRoute"));
 app.use("/api/coupons", require("./routes/couponRoute"));
 app.use("/api/payment", require("./routes/paymentRoute"));
-app.use("/api/contact", require("./routes/contactRoute")); 
+app.use("/api/contact", require("./routes/contactRoute"));
 app.use("/api/settings", require("./routes/settingsRoute"));
 
 // Start server
