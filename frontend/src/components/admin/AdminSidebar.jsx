@@ -7,6 +7,7 @@ import {
   Users,
   Ticket,
   LogOut,
+  Settings2,
 } from "lucide-react";
 const AdminSidebar = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const AdminSidebar = () => {
     { label: "Menu", path: "/admin/menu", icon: UtensilsCrossed },
     { label: "Users", path: "/admin/users", icon: Users },
     { label: "Coupons", path: "/admin/coupons", icon: Ticket },
+    { label: "Settings", path: "/admin/settings", icon: Settings2},
   ];
 
   const handleLogout = () => {

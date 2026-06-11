@@ -15,6 +15,9 @@ import AdminCoupons from "./pages/admin/AdminCoupons";
 import Menu from "./pages/Menu";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import Contact from "./pages/Contact";
+import Terms from "./pages/Terms";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 // 👇 This component controls WHERE Navbar shows up
 const Layout = ({ children }) => {
@@ -30,6 +33,7 @@ const Layout = ({ children }) => {
     "/admin/menu",
     "/admin/users",
     "/admin/coupons",
+    "/admin/settings"
   ];
 
   const shouldShowNavbar = !hideNavbarOn.includes(location.pathname);
@@ -50,7 +54,8 @@ function App() {
           {/* Auth pages — no Navbar */}
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
           {/* Add more routes below as we build */}
           {/* <Route path="/restaurants" element={<Restaurants />} /> */}
 
@@ -87,6 +92,12 @@ function App() {
           <Route path="/menu" element={<Menu />} />
 
           {/* Admin routes - wrap with adminOnly */}
+          <Route path="/admin/settings" element={
+            <ProtectedRoute adminOnly>
+              <AdminSettings />
+            </ProtectedRoute>
+          } />
+
           <Route
             path="/admin/dashboard"
             element={

@@ -32,6 +32,16 @@ const menuItemSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    rating: {
+        type: Number,
+        default: 4.0,
+        min: 1,
+        max: 5,
+    },
+    isVeg: {
+        type: Boolean,
+        default: false,
+    },
 }, { timestamps: true });
 
 const MenuItems = mongoose.model("MenuItem", menuItemSchema);

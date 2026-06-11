@@ -86,6 +86,8 @@ const AdminMenu = () => {
         category: "",
         image: null,
         tag: "popular",
+        rating: 4.0,
+        isVeg: false,
       });
 
       setPreview("");
@@ -242,6 +244,53 @@ const AdminMenu = () => {
                 <option value="featured">Featured</option>
               </select>
 
+              {/* Rating */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">
+                  Rating (1-5)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="5"
+                  step="0.1"
+                  placeholder="e.g. 4.5"
+                  value={form.rating}
+                  onChange={(e) => setForm({ ...form, rating: e.target.value })}
+                  className="bg-[#242424] border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-[#FF6B35] transition-all"
+                />
+              </div>
+
+              {/* Veg / Non-Veg */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">
+                  Type
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, isVeg: true })}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      form.isVeg
+                        ? "bg-green-500/20 text-green-400 border border-green-500"
+                        : "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                    }`}
+                  >
+                    🟢 Veg
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, isVeg: false })}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      !form.isVeg
+                        ? "bg-red-500/20 text-red-400 border border-red-500"
+                        : "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                    }`}
+                  >
+                    🔴 Non-Veg
+                  </button>
+                </div>
+              </div>
               <div className="flex flex-col gap-2">
                 <label className="text-zinc-300 text-sm">Food Image</label>
 

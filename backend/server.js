@@ -31,6 +31,8 @@ app.use("/api/menu", require("./routes/menuRoute"));
 app.use("/api/orders", require("./routes/orderRoute"));
 app.use("/api/coupons", require("./routes/couponRoute"));
 app.use("/api/payment", require("./routes/paymentRoute"));
+app.use("/api/contact", require("./routes/contactRoute")); 
+app.use("/api/settings", require("./routes/settingsRoute"));
 
 // Start server
 const PORT = process.env.PORT || 5000;

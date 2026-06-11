@@ -44,7 +44,7 @@ const Navbar = () => {
   const navLinks = [
     { label: "Home", path: "/home" },
     { label: "Menu", path: "/menu" },
-    { label: "Orders", path: "/orders" },
+    { label: "Contact", path: "/contact" },
   ];
 
   const handleLogout = () => {
