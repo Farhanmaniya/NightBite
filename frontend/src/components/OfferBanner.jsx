@@ -39,26 +39,28 @@ const BannerCard = ({ banner }) => {
 
   return (
     <div
-      className="rounded-2xl p-5 flex flex-col gap-3"
+      className="rounded-2xl p-5 flex flex-col justify-between gap-4 h-full shadow-lg shadow-black/10"
       style={{ background: banner.gradient }}
     >
-      {/* Title */}
-      <div className="flex items-center gap-2">
-        <span className="text-2xl">{banner.emoji}</span>
-        <h3 className="text-white font-bold text-base">{banner.title}</h3>
+      <div className="flex flex-col gap-2">
+        {/* Title */}
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">{banner.emoji}</span>
+          <h3 className="text-white font-bold text-base">{banner.title}</h3>
+        </div>
+
+        {/* Subtitle */}
+        <p className="text-white/80 text-xs">{banner.subtitle}</p>
       </div>
 
-      {/* Subtitle */}
-      <p className="text-white/80 text-xs">{banner.subtitle}</p>
-
       {/* Coupon Code */}
-      <div className="flex items-center gap-2 bg-black/20 rounded-xl px-3 py-2">
+      <div className="flex items-center gap-2 bg-black/20 rounded-xl px-3 py-2 mt-auto">
         <span className="text-white font-bold tracking-widest text-xs flex-1">
           {banner.code}
         </span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1 bg-white text-xs font-bold px-3 py-1 rounded-lg hover:bg-zinc-100 transition-all active:scale-95"
+          className="flex items-center gap-1 bg-white text-xs font-bold px-3 py-1 rounded-lg hover:bg-zinc-100 transition-all active:scale-95 shrink-0"
           style={{ color: "#FF6B35" }}
         >
           {copied ? (
@@ -75,13 +77,14 @@ const BannerCard = ({ banner }) => {
 const OfferBanner = () => {
   return (
     <section
-      className="max-w-6xl mx-auto px-4 py-8"
+      className="max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full"
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
       <h2 className="text-[#F1F5F9] font-bold text-xl mb-6">
         Offers & Coupons
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* 🛠️ Fixed layout spacing and breakpoints here 👇 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {banners.map((banner) => (
           <BannerCard key={banner.id} banner={banner} />
         ))}

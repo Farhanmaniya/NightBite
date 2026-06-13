@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, User, Menu, X, LogOut, Package } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import logo from "../assets/logo.svg";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -21,15 +22,14 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const [cartAnimate, setCartAnimate ] = useState(false);
+  const [cartAnimate, setCartAnimate] = useState(false);
 
   useEffect(() => {
-    if (cartCount > 0){
+    if (cartCount > 0) {
       setCartAnimate(true);
       setTimeout(() => setCartAnimate(false), 300);
     }
   }, [cartCount]);
-
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -66,15 +66,11 @@ const Navbar = () => {
       }`}
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-4 flex items-center justify-between">
         {/* LOGO */}
-        <Link to="/home" className="flex items-center gap-2 group">
-          <span className="text-2xl">🌙</span>
-          <span className="text-xl font-bold text-[#F1F5F9] group-hover:text-[#FF6B35] transition-colors duration-200">
-            Night<span style={{ color: "#FF6B35" }}>Bite</span>
-          </span>
+        <Link to="/home">
+          <img src={logo} alt="NightBite" className="h-12" />
         </Link>
-
         {/* NAV LINKS — Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
@@ -100,88 +96,92 @@ const Navbar = () => {
         {/* RIGHT SIDE — Cart + Profile */}
         {token ? (
           <div className="hidden md:flex items-center gap-3" ref={dropdownRef}>
-          {/* Cart Icon */}
-          <Link
-            to="/cart"
-            className="relative p-2 rounded-xl text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all duration-200"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            <span className={`absolute -top-1 -right-1 w-4 h-4 bg-[#FF6b35] text-white text-[10px] font-bold rounded-full flex items-center justify-center transition-all duration-300 ${
-                cartAnimate ? "scale-125" : "scale-100"
-              }`}>
-              {cartCount}
-            </span>
-          </Link>
+            {/* Cart Icon */}
+            <Link
+              to="/cart"
+              className="relative p-2 rounded-xl text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all duration-200"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              <span
+                className={`absolute -top-1 -right-1 w-4 h-4 bg-[#FF6b35] text-white text-[10px] font-bold rounded-full flex items-center justify-center transition-all duration-300 ${
+                  cartAnimate ? "scale-125" : "scale-100"
+                }`}
+              >
+                {cartCount}
+              </span>
+            </Link>
 
-          {/* Profile Icon */}
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="p-2 rounded-xl text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] border border-[#334155] hover:border-[#FF6B35] transition-all duration-200 relative"
-          >
-            <User className="w-5 h-5" />
-          </button>
+            {/* Profile Icon */}
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="p-2 rounded-xl text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] border border-[#334155] hover:border-[#FF6B35] transition-all duration-200 relative"
+            >
+              <User className="w-5 h-5" />
+            </button>
 
-          {/* Dropdown */}
-          {dropdownOpen && (
-            <div className="absolute top-14 right-0 w-56 bg-[#1E293B] border border-[#334155] rounded-2xl shadow-xl shadow-black/40 z-50 overflow-hidden">
-              {/* User Info  */}
-              <div className="px-4 py-3 border-b border-[#334155]">
-                <p className="text-[#F1F5F9] font-semibold text-sm">{user?.name}</p>
-                <p className="text-zinc-500 text-xs mt-0.5">
-                  {user?.email}
-                </p>
+            {/* Dropdown */}
+            {dropdownOpen && (
+              <div className="absolute top-14 right-0 w-56 bg-[#1E293B] border border-[#334155] rounded-2xl shadow-xl shadow-black/40 z-50 overflow-hidden">
+                {/* User Info  */}
+                <div className="px-4 py-3 border-b border-[#334155]">
+                  <p className="text-[#F1F5F9] font-semibold text-sm">
+                    {user?.name}
+                  </p>
+                  <p className="text-zinc-500 text-xs mt-0.5">{user?.email}</p>
+                </div>
+
+                {/* Menu Items */}
+                <div className="flex flex-col py-2">
+                  <Link
+                    to="/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all"
+                  >
+                    <User className="w-4 h-4" /> Profile
+                  </Link>
+                  <Link
+                    to="/orders"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all"
+                  >
+                    <span className="text-base">
+                      <Package className="w-4 h-4" />
+                    </span>{" "}
+                    My Orders
+                  </Link>
+                </div>
+
+                {/* Logout */}
+                <div className="border-t border-[#334155] py-2">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-[#1E293B] transition-all w-full"
+                  >
+                    <span className="text-base">
+                      <LogOut className="w-4 h-4" />
+                    </span>{" "}
+                    Logout
+                  </button>
+                </div>
               </div>
+            )}
 
-              {/* Menu Items */}
-              <div className="flex flex-col py-2">
-                <Link
-                  to="/profile"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all"
-                >
-                  <User className="w-4 h-4" /> Profile
-                </Link>
-                <Link
-                  to="/orders"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E293B] transition-all"
-                >
-                  <span className="text-base"><Package className="w-4 h-4" /></span> My Orders
-                </Link>
-              </div>
-
-              {/* Logout */}
-              <div className="border-t border-[#334155] py-2">
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-[#1E293B] transition-all w-full"
-                >
-                  <span className="text-base">
-                    <LogOut className="w-4 h-4" />
-                  </span>{" "}
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Login Button — uncomment when auth is ready */}
-          {/* <Link
+            {/* Login Button — uncomment when auth is ready */}
+            {/* <Link
             to="/"
             className="text-sm font-semibold px-4 py-2 rounded-xl bg-[#FF6B35] hover:bg-[#ff8255] text-[#F1F5F9] transition-all duration-200"
           >
             Login
           </Link> */}
-        </div>
-        ): (
+          </div>
+        ) : (
           <Link
-    to="/"
-    className="hidden md:flex items-center gap-2 bg-[#FF6B35] hover:bg-[#ff8255] text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-all"
-  >
-    Login
-  </Link>
+            to="/"
+            className="hidden md:flex items-center gap-2 bg-[#FF6B35] hover:bg-[#ff8255] text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-all"
+          >
+            Login
+          </Link>
         )}
-        
 
         {/* MOBILE — Hamburger */}
         <button

@@ -9,7 +9,8 @@ const Hero = () => {
   const [settings, setSettings] = useState({
     heroHeadline: "Hungry?",
     heroSubheadline: "We deliver.",
-    heroDescription: "Order from the best restaurants near you. Fast delivery, great food, every time.",
+    heroDescription:
+      "Order from the best restaurants near you. Fast delivery, great food, every time.",
     foodEmojis: ["🍕", "🍜", "🌮", "🍣"],
     centerEmoji: "🍔",
     totalItems: 0,
@@ -38,8 +39,11 @@ const Hero = () => {
 
   return (
     <section
-      className="min-h-screen flex items-center relative overflow-hidden"
-      style={{ backgroundColor: "#0F172A", fontFamily: "'Poppins', sans-serif" }}
+      className="min-h-[90vh] md:min-h-screen flex items-center relative overflow-hidden w-full max-w-full"
+      style={{
+        backgroundColor: "#0F172A",
+        fontFamily: "'Poppins', sans-serif",
+      }}
     >
       {/* Background glow */}
       <div
@@ -47,18 +51,18 @@ const Hero = () => {
         style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }}
       />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-24 pb-16">
+      <div className="max-w-[90%] 2xl:max-w-[85%] mx-auto px-4 sm:px-6 w-full py-24 md:py-32">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-
           {/* LEFT */}
-          <div className="flex-1 flex flex-col gap-6">
-
+          <div className="flex-1 flex flex-col gap-6 w-full">
             {/* Location pill */}
             <div className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full border border-[#334155] bg-[#1E293B]">
               <MapPin className="w-3.5 h-3.5 text-[#FF6B35]" />
               <span className="text-xs text-[#94A3B8]">
                 Delivering to{" "}
-                <span className="text-[#F1F5F9] font-medium">Anand, Gujarat</span>
+                <span className="text-[#F1F5F9] font-medium">
+                  Anand, Gujarat
+                </span>
               </span>
             </div>
 
@@ -73,13 +77,13 @@ const Hero = () => {
               >
                 {settings.heroSubheadline}
               </h1>
-              <p className="text-[#94A3B8] text-base mt-2 leading-relaxed max-w-md">
+              <p className="text-[#94A3B8] text-base mt-2 leading-relaxed max-w-xl">
                 {settings.heroDescription}
               </p>
             </div>
 
             {/* Search */}
-            <div className="flex items-center gap-2 bg-[#1E293B] border border-[#334155] rounded-2xl px-4 py-3 max-w-md focus-within:border-[#FF6B35] transition-all duration-200">
+            <div className="flex items-center gap-2 bg-[#1E293B] border border-[#334155] rounded-2xl px-4 py-3 max-w-xl focus-within:border-[#FF6B35] transition-all duration-200">
               <Search className="w-4 h-4 text-[#64748B] shrink-0" />
               <input
                 type="text"
@@ -103,10 +107,15 @@ const Hero = () => {
               {[
                 { value: `${settings.totalItems || 0}+`, label: "Menu Items" },
                 { value: "20min", label: "Avg Delivery" },
-                { value: `${settings.avgRating || "4.8"}★`, label: "Avg Rating" },
+                {
+                  value: `${settings.avgRating || "4.8"}★`,
+                  label: "Avg Rating",
+                },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col">
-                  <span className="text-xl font-bold text-[#F1F5F9]">{stat.value}</span>
+                  <span className="text-xl font-bold text-[#F1F5F9]">
+                    {stat.value}
+                  </span>
                   <span className="text-xs text-[#64748B]">{stat.label}</span>
                 </div>
               ))}
@@ -114,13 +123,14 @@ const Hero = () => {
           </div>
 
           {/* RIGHT — Food Visual */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="relative w-72 h-72">
-
+          <div className="flex-1 flex items-center md:justify-end w-full max-w-full overflow-visible">
+            <div className="relative w-72 h-72 scale-90 sm:scale-100">
               {/* Glow */}
               <div
                 className="absolute inset-0 rounded-full opacity-20"
-                style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }}
+                style={{
+                  background: "radial-gradient(circle, #FF6B35, transparent)",
+                }}
               />
 
               {/* Center circle */}
@@ -132,52 +142,78 @@ const Hero = () => {
 
               {/* Top Left */}
               <div
-                className="absolute top-2 left-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
-                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0s" }}
+                className="absolute top-0 -left-4 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg whitespace-nowrap"
+                style={{
+                  animation: "float 3s ease-in-out infinite",
+                  animationDelay: "0s",
+                }}
               >
-                <span className="text-xl">{settings.foodEmojis?.[0] || "🍕"}</span>
-                <span className="text-xs text-[#94A3B8] font-medium">Pizza</span>
+                <span className="text-xl">
+                  {settings.foodEmojis?.[0] || "🍕"}
+                </span>
+                <span className="text-xs text-[#94A3B8] font-medium">
+                  Pizza
+                </span>
               </div>
 
               {/* Top Right */}
               <div
-                className="absolute top-2 right-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
-                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.3s" }}
+                className="absolute top-0 -right-4 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg whitespace-nowrap"
+                style={{
+                  animation: "float 3s ease-in-out infinite",
+                  animationDelay: "0.3s",
+                }}
               >
-                <span className="text-xl">{settings.foodEmojis?.[1] || "🍜"}</span>
-                <span className="text-xs text-[#94A3B8] font-medium">Noodles</span>
+                <span className="text-xl">
+                  {settings.foodEmojis?.[1] || "🍜"}
+                </span>
+                <span className="text-xs text-[#94A3B8] font-medium">
+                  Noodles
+                </span>
               </div>
 
               {/* Bottom Left */}
               <div
-                className="absolute bottom-2 left-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
-                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.6s" }}
+                className="absolute bottom-0 -left-4 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg whitespace-nowrap"
+                style={{
+                  animation: "float 3s ease-in-out infinite",
+                  animationDelay: "0.6s",
+                }}
               >
-                <span className="text-xl">{settings.foodEmojis?.[2] || "🌮"}</span>
-                <span className="text-xs text-[#94A3B8] font-medium">Tacos</span>
+                <span className="text-xl">
+                  {settings.foodEmojis?.[2] || "🌮"}
+                </span>
+                <span className="text-xs text-[#94A3B8] font-medium">
+                  Tacos
+                </span>
               </div>
 
               {/* Bottom Right */}
               <div
-                className="absolute bottom-2 right-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
-                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.9s" }}
+                className="absolute bottom-0 -right-4 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg whitespace-nowrap"
+                style={{
+                  animation: "float 3s ease-in-out infinite",
+                  animationDelay: "0.9s",
+                }}
               >
-                <span className="text-xl">{settings.foodEmojis?.[3] || "🍣"}</span>
-                <span className="text-xs text-[#94A3B8] font-medium">Sushi</span>
+                <span className="text-xl">
+                  {settings.foodEmojis?.[3] || "🍣"}
+                </span>
+                <span className="text-xs text-[#94A3B8] font-medium">
+                  Sushi
+                </span>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
 
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `}</style>
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+    `}</style>
     </section>
   );
 };

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60">
+  <!-- Icon circle -->
+  <circle cx="30" cy="30" r="28" fill="#0F172A" stroke="#FF6B35" stroke-width="1.5"/>
+  <circle cx="30" cy="28" r="13" fill="#FF6B35"/>
+  <circle cx="35" cy="23" r="11" fill="#0F172A"/>
+  <circle cx="30" cy="44" r="2.5" fill="#FF6B35"/>
+  <circle cx="23" cy="41" r="1.8" fill="#FF6B35" opacity="0.6"/>
+  <circle cx="37" cy="41" r="1.8" fill="#FF6B35" opacity="0.6"/>
+  <!-- Brand text -->
+  <text x="66" y="24" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#F1F5F9">Night</text>
+  <text x="66" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#FF6B35">Bite</text>
+</svg>

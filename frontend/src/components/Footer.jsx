@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaInstagram, FaTwitter, FaFacebook, FaYoutube } from "react-icons/fa";
+import logo from "../assets/logo.svg";
+import logoOnly from "../assets/logo-only.svg";
 
 const Footer = () => {
   return (
@@ -15,8 +17,8 @@ const Footer = () => {
         style={{ backgroundColor: "#0F172A" }}
       >
         <div className="flex flex-col gap-1">
-          <h2 className="text-[#F1F5F9] font-bold text-xl">
-            🌙 Late night craving?
+          <h2 className="text-[#F1F5F9] font-bold text-xl flex items-center gap-2">
+            <img src={logoOnly} alt="NightBite" className="h-12" /> Late night craving?
           </h2>
           <p className="text-[#94A3B8] text-sm">
             We deliver fast, fresh, and right to your door.
@@ -37,10 +39,7 @@ const Footer = () => {
           {/* Col 1 - Logo + About */}
           <div className="flex flex-col gap-3 md:col-span-1">
             <Link to="/home" className="flex items-center gap-2">
-              <span className="text-2xl">🌙</span>
-              <span className="text-xl font-bold text-[#F1F5F9]">
-                Night<span style={{ color: "#FF6B35" }}>Bite</span>
-              </span>
+              <img src={logo} alt="NightBite" className="h-12" />
             </Link>
             <p className="text-[#64748B] text-sm leading-relaxed">
               Good food, fast delivery. Order your favourite meals from the
