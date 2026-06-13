@@ -10,8 +10,10 @@ const Hero = () => {
     heroHeadline: "Hungry?",
     heroSubheadline: "We deliver.",
     heroDescription: "Order from the best restaurants near you. Fast delivery, great food, every time.",
-    foodEmojis: ["🍔", "🍕", "🍜", "🌮", "🍣"],
+    foodEmojis: ["🍕", "🍜", "🌮", "🍣"],
     centerEmoji: "🍔",
+    totalItems: 0,
+    avgRating: "4.8",
   });
 
   useEffect(() => {
@@ -34,21 +36,16 @@ const Hero = () => {
     if (e.key === "Enter") handleSearch();
   };
 
-  const floatingItems = [
-    { emoji: settings.foodEmojis[0], label: "Pizza", top: "0%", left: "0%" },
-    { emoji: settings.foodEmojis[1], label: "Noodles", top: "0%", right: "0%" },
-    { emoji: settings.foodEmojis[2], label: "Tacos", bottom: "10%", left: "0%" },
-    { emoji: settings.foodEmojis[3], label: "Sushi", bottom: "10%", right: "0%" },
-  ];
-
   return (
     <section
       className="min-h-screen flex items-center relative overflow-hidden"
       style={{ backgroundColor: "#0F172A", fontFamily: "'Poppins', sans-serif" }}
     >
       {/* Background glow */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+      <div
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
+        style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }}
+      />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-24 pb-16">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
@@ -56,17 +53,24 @@ const Hero = () => {
           {/* LEFT */}
           <div className="flex-1 flex flex-col gap-6">
 
+            {/* Location pill */}
             <div className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full border border-[#334155] bg-[#1E293B]">
               <MapPin className="w-3.5 h-3.5 text-[#FF6B35]" />
-              <span className="text-xs text-[#94A3B8]">Delivering to <span className="text-[#F1F5F9] font-medium">Anand, Gujarat</span></span>
+              <span className="text-xs text-[#94A3B8]">
+                Delivering to{" "}
+                <span className="text-[#F1F5F9] font-medium">Anand, Gujarat</span>
+              </span>
             </div>
 
-            {/* Dynamic headline */}
+            {/* Headline */}
             <div className="flex flex-col gap-2">
               <h1 className="text-5xl sm:text-6xl font-bold text-[#F1F5F9] leading-tight">
                 {settings.heroHeadline}
               </h1>
-              <h1 className="text-5xl sm:text-6xl font-bold leading-tight" style={{ color: "#FF6B35" }}>
+              <h1
+                className="text-5xl sm:text-6xl font-bold leading-tight"
+                style={{ color: "#FF6B35" }}
+              >
                 {settings.heroSubheadline}
               </h1>
               <p className="text-[#94A3B8] text-base mt-2 leading-relaxed max-w-md">
@@ -110,33 +114,61 @@ const Hero = () => {
           </div>
 
           {/* RIGHT — Food Visual */}
-          <div className="flex-1 flex items-center justify-center relative">
-            <div className="absolute w-72 h-72 rounded-full opacity-20"
-              style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+          <div className="flex-1 flex items-center justify-center">
+            <div className="relative w-72 h-72">
 
-            {/* Center emoji — dynamic */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-64 h-64 rounded-full bg-[#1E293B] border border-[#334155] shadow-2xl">
-              <span className="text-8xl">{settings.centerEmoji}</span>
-            </div>
-
-            {/* Floating cards — dynamic emojis */}
-            {floatingItems.map((item) => (
+              {/* Glow */}
               <div
-                key={item.label}
-                className="absolute z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
-                style={{
-                  top: item.top,
-                  left: item.left,
-                  right: item.right,
-                  bottom: item.bottom,
-                  animation: `float 3s ease-in-out infinite`,
-                }}
-              >
-                <span className="text-xl">{item.emoji}</span>
-                <span className="text-xs text-[#94A3B8] font-medium">{item.label}</span>
+                className="absolute inset-0 rounded-full opacity-20"
+                style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }}
+              />
+
+              {/* Center circle */}
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="w-44 h-44 rounded-full bg-[#1E293B] border border-[#334155] shadow-2xl flex items-center justify-center">
+                  <span className="text-7xl">{settings.centerEmoji}</span>
+                </div>
               </div>
-            ))}
+
+              {/* Top Left */}
+              <div
+                className="absolute top-2 left-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
+                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0s" }}
+              >
+                <span className="text-xl">{settings.foodEmojis?.[0] || "🍕"}</span>
+                <span className="text-xs text-[#94A3B8] font-medium">Pizza</span>
+              </div>
+
+              {/* Top Right */}
+              <div
+                className="absolute top-2 right-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
+                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.3s" }}
+              >
+                <span className="text-xl">{settings.foodEmojis?.[1] || "🍜"}</span>
+                <span className="text-xs text-[#94A3B8] font-medium">Noodles</span>
+              </div>
+
+              {/* Bottom Left */}
+              <div
+                className="absolute bottom-2 left-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
+                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.6s" }}
+              >
+                <span className="text-xl">{settings.foodEmojis?.[2] || "🌮"}</span>
+                <span className="text-xs text-[#94A3B8] font-medium">Tacos</span>
+              </div>
+
+              {/* Bottom Right */}
+              <div
+                className="absolute bottom-2 right-0 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#1E293B] border border-[#334155] shadow-lg"
+                style={{ animation: "float 3s ease-in-out infinite", animationDelay: "0.9s" }}
+              >
+                <span className="text-xl">{settings.foodEmojis?.[3] || "🍣"}</span>
+                <span className="text-xs text-[#94A3B8] font-medium">Sushi</span>
+              </div>
+
+            </div>
           </div>
+
         </div>
       </div>
 
