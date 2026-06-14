@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import logoOnly from "../../assets/logo-only.svg";
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -36,7 +37,7 @@ const AdminSidebar = () => {
       {/* Logo */}
       <div className="px-6 py-6 border-b border-zinc-800">
         <Link to="/admin/dashboard" className="flex items-center gap-2">
-          <span className="text-2xl">🌙</span>
+          <img src={logoOnly} alt="Logo" className="w-8 h-8" />
           <span className="text-xl font-bold text-white">
             Night<span style={{ color: "#FF6B35" }}>Bite</span>
           </span>

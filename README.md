@@ -192,7 +192,7 @@ nightbite/
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/nightbite.git
+git clone https://github.com/Farhanmaniya/nightbite.git
 cd nightbite
 ```
 
@@ -307,8 +307,8 @@ REACT_APP_RAZORPAY_KEY_ID=your_razorpay_key_id
 Madhuben & Bhanubhai Institute of Technology (MBIT), Gujarat
 
 - 📧 farhanmaniya3578@gmail.com
-- 🔗 [LinkedIn](#)
-- 🐙 [GitHub](#)
+- 🔗 [www.linkedin.com/in/farhan-maniya-9428222a6](#)
+- 🐙 [https://github.com/Farhanmaniya](#)
 
 ---
 

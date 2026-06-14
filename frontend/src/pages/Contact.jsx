@@ -60,13 +60,13 @@ const Contact = () => {
               {
                 icon: Phone,
                 label: "Call Us",
-                value: "+91 98765 43210",
+                value: "+91 8347735779",
                 sub: "Mon–Sat, 9AM to 6PM",
               },
               {
                 icon: MapPin,
                 label: "Location",
-                value: "Anand, Gujarat, India",
+                value: "Nadiad, Gujarat, India",
                 sub: "Serving locally",
               },
             ].map((item) => (

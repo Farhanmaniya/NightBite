@@ -61,7 +61,7 @@ const Hero = () => {
               <span className="text-xs text-[#94A3B8]">
                 Delivering to{" "}
                 <span className="text-[#F1F5F9] font-medium">
-                  Anand, Gujarat
+                  Nadiad, Gujarat
                 </span>
               </span>
             </div>

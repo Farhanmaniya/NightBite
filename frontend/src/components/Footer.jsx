@@ -114,7 +114,7 @@ const Footer = () => {
             <div className="flex flex-col gap-2">
               <p className="text-[#64748B] text-sm">📧 nightbite@gmail.com</p>
               <p className="text-[#64748B] text-sm">📞 +91 98765 43210</p>
-              <p className="text-[#64748B] text-sm">📍 Anand, Gujarat, India</p>
+              <p className="text-[#64748B] text-sm">📍 Nadiad, Gujarat, India</p>
             </div>
           </div>
         </div>

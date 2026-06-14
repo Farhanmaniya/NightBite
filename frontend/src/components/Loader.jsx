@@ -11,7 +11,7 @@ const Loader = () => {
       {/* Logo */}
       <div className="flex items-center gap-2">
         <span className="text-3xl">
-          <img src={logoOnly} alt="NightBite"/>
+          <img src={logoOnly} alt="NightBite" className="h-10"/>
         </span>
         <span className="text-2xl font-bold text-[#F1F5F9]">
           Night<span style={{ color: "#FF6B35" }}>Bite</span>
