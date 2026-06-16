@@ -7,7 +7,7 @@ const getMenuItems = async (req, res) => {
     const items = await MenuItem.find({ isAvailable: true });
     res.status(200).json(items);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -20,7 +20,7 @@ const getMenuItemById = async (req, res) => {
     }
     res.status(200).json(item);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -48,7 +48,7 @@ const createMenuItem = async (req, res) => {
     res.status(201).json(item);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -91,7 +91,7 @@ const updateMenuItem = async (req, res) => {
     res.status(200).json(updatedItem);
   } catch (error) {
     res.status(500).josn({
-      message: error.message,
+      message: "Something went wrong. Please try again.",
     });
   }
 };
@@ -104,7 +104,7 @@ const deleteMenuItem = async (req, res) => {
     }
     res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 

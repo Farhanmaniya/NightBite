@@ -29,7 +29,7 @@ const placeOrder = async (req, res) => {
     }
     res.status(201).json(order);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -40,7 +40,7 @@ const getMyOrders = async (req, res) => {
     });
     res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -51,7 +51,7 @@ const getAllOrders = async (req, res) => {
       .sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -68,7 +68,7 @@ const updateOrderStatus = async (req, res) => {
     }
     res.status(200).json(order);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 

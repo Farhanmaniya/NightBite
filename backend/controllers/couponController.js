@@ -6,7 +6,7 @@ const getAllCoupons = async (req, res) => {
     const coupons = await Coupon.find();
     res.status(200).json(coupons);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -16,7 +16,7 @@ const createCoupon = async (req, res) => {
     const coupon = await Coupon.create(req.body);
     res.status(201).json(coupon);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -29,7 +29,7 @@ const deleteCoupon = async (req, res) => {
     }
     res.status(200).json({ message: "Coupon deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -75,7 +75,7 @@ const validateCoupon = async (req, res) => {
       message: "Coupon applied successfully",
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -89,7 +89,7 @@ const toggleCoupon = async (req, res) => {
     await coupon.save();
     res.status(200).json(coupon);
   }catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 

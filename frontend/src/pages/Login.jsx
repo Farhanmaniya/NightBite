@@ -25,7 +25,19 @@ const Login = () => {
     return newErrors;
   };
 
+
   const handleSubmit = async () => {
+    const existingToken = localStorage.getItem("token");
+    const existingUser = JSON.parse(localStorage.getItem("user"));
+
+    if (existingToken && existingUser) {
+      if (existingUser.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }
+      return;
+    }
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

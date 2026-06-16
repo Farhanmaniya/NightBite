@@ -16,7 +16,7 @@ const createPaymentOrder = async (req, res) => {
         res.status(200).json(order);
 
     } catch (error){
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Something went wrong. Please try again." });
     }
 };
 
@@ -45,7 +45,7 @@ const verifyPayment = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Something went wrong. Please try again." });
     }
 };
 

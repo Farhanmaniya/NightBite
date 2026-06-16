@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const { protect, adminOnly } = require("../middleware/auth");
+const { authLimiter } = require("../middleware/rateLimiter");
 const {UserLogin, UserRegister, getAllUsers, updateProfile, getProfile, getDashboardStats} = require("../controllers/authController");
 
 // @route POST /api/auth/register
 // @desc Register new user
-router.post("/register", UserRegister);
+router.post("/register", authLimiter, UserRegister);
 
 // @route POST /api/auth/login
 // @desc Login existing User
-router.post("/login", UserLogin);
+router.post("/login", authLimiter, UserLogin);
 
 router.get("/users", getAllUsers);
 router.get("/dashboard", protect, adminOnly, getDashboardStats);

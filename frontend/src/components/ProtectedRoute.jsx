@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     // No token -> redirect to login
-    if (!token) {
+    if (!token || !user) {
         return <Navigate to="/" replace />;
     }
 
@@ -14,6 +14,9 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
         return <Navigate to="/home" replace />;
     }
 
+    if (!adminOnly && user.role === "admin" && window.location.pathname === "/") {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
     return children;
 };
 

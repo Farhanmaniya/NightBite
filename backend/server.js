@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const { apiLimiter } = require("./middleware/rateLimiter");
 // const routes = require("./routes/authRoute");
 
 // Load env variables
@@ -10,6 +11,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use("/api", apiLimiter);
 
 // Middleware
 app.use(
@@ -23,6 +25,8 @@ app.use(
     credentials: true,
   }),
 );
+
+
 app.use(express.json());
 
 // Test route

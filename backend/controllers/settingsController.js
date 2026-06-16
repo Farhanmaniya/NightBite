@@ -27,7 +27,7 @@ const getSettings = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
 
@@ -48,7 +48,7 @@ const updateSettings = async (req, res) => {
 
         res.status(200).json(settings);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Something went wrong. Please try again." });
     }
 };
 
