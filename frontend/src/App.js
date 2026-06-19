@@ -14,6 +14,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import Menu from "./pages/Menu";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ScrollToTop from "./components/ScrollToTop";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
@@ -49,6 +50,7 @@ const Layout = ({ children }) => {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Layout>
         <Routes>
           {/* Auth pages — no Navbar */}

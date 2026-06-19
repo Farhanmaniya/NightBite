@@ -354,52 +354,56 @@ const AdminMenu = () => {
 
           {/* Menu Table */}
           <div className="bg-[#1A1A1A] rounded-2xl border border-zinc-800 overflow-hidden">
-            {/* Table Header */}
-            <div className="grid grid-cols-5 px-6 py-3 border-b border-zinc-800 bg-zinc-900">
-              {["Image", "Name", "Category", "Price", "Actions"].map((h) => (
-                <span
-                  key={h}
-                  className="text-zinc-500 text-xs font-semibold uppercase tracking-widest"
-                >
-                  {h}
-                </span>
-              ))}
-            </div>
-
-            {/* Table Rows */}
-            {items.map((item) => (
-              <div
-                key={item._id}
-                className="grid grid-cols-5 px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all items-center"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-14 h-14 rounded-xl object-cover"
-                />
-                <span className="text-white text-sm font-medium">
-                  {item.name}
-                </span>
-                <span className="text-zinc-400 text-sm">{item.category}</span>
-                <span className="text-white text-sm">₹{item.price}</span>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                  <button
-                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
-                    onClick={() => openEditDrawer(item)}
-                  >
-                    <Pencil className="w-3.5 h-3.5"></Pencil>
-                  </button>
-                  <button
-                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 transition-all"
-                    onClick={() => deleteItem(item._id)}
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+            <div className="overflow-x-auto">
+              <div className="min-w-[750px]">
+                {/* Table Header */}
+                <div className="grid grid-cols-5 px-6 py-3 border-b border-zinc-800 bg-zinc-900">
+                  {["Image", "Name", "Category", "Price", "Actions"].map((h) => (
+                    <span
+                      key={h}
+                      className="text-zinc-500 text-xs font-semibold uppercase tracking-widest"
+                    >
+                      {h}
+                    </span>
+                  ))}
                 </div>
+
+                {/* Table Rows */}
+                {items.map((item) => (
+                  <div
+                    key={item._id}
+                    className="grid grid-cols-5 px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all items-center"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-14 h-14 rounded-xl object-cover"
+                    />
+                    <span className="text-white text-sm font-medium">
+                      {item.name}
+                    </span>
+                    <span className="text-zinc-400 text-sm">{item.category}</span>
+                    <span className="text-white text-sm">₹{item.price}</span>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
+                        onClick={() => openEditDrawer(item)}
+                      >
+                        <Pencil className="w-3.5 h-3.5"></Pencil>
+                      </button>
+                      <button
+                        className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 transition-all"
+                        onClick={() => deleteItem(item._id)}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </AdminLayout>

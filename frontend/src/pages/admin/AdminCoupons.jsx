@@ -139,98 +139,101 @@ const AdminCoupons = () => {
 
         {/* Table */}
         <div className="bg-[#1A1A1A] rounded-2xl border border-zinc-800 overflow-hidden">
-          {/* Header */}
-          <div className="grid grid-cols-7 px-6 py-3 border-b border-zinc-800 bg-zinc-900">
-            {[
-              "Code",
-              "Discount",
-              "Min Order",
-              "Expiry",
-              "Usage",
-              "Status",
-              "Actions",
-            ].map((h) => (
-              <span
-                key={h}
-                className="text-zinc-500 text-xs font-semibold uppercase tracking-widest"
-              >
-                {h}
-              </span>
-            ))}
-          </div>
-
-          {/* Rows */}
-          {coupons
-            .filter((c) => c.code.toLowerCase().includes(search.toLowerCase()))
-            .map((coupon) => (
-              <div
-                key={coupon._id}
-                className="grid grid-cols-7 px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all items-center"
-              >
-                {/* Code */}
-                <span className="text-xs font-bold px-2 py-1 rounded-lg bg-zinc-800 text-[#FF6B35] tracking-widest border border-zinc-700 w-fit">
-                  {coupon.code}
-                </span>
-
-                {/* Discount */}
-                <span className="text-white text-sm font-medium">
-                  {coupon.discountType === "percentage"
-                    ? `${coupon.discountValue}%`
-                    : `₹${coupon.discountValue}`}
-                </span>
-
-                {/* Min Order */}
-                <span className="text-zinc-400 text-sm">
-                  ₹{coupon.minOrder}
-                </span>
-
-                {/* Expiry */}
-                <span className="text-zinc-400 text-sm">
-                  {new Date(coupon.expiryDate).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </span>
-
-                {/* Usage */}
-                <span className="text-zinc-400 text-sm">
-                  {coupon.usedCount}/{coupon.maxUses}
-                </span>
-
-                {/* Status */}
-                <span
-                  className={`text-xs font-bold px-3 py-1 rounded-full w-fit ${
-                    coupon.isActive
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-red-500/20 text-red-400"
-                  }`}
-                >
-                  {coupon.isActive ? "Active" : "Inactive"}
-                </span>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleToggle(coupon._id)}
-                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
+          <div className="overflow-x-auto">
+            <div className="min-w-[950px]">
+              {/* Header */}
+              <div className="grid grid-cols-7 px-6 py-3 border-b border-zinc-800 bg-zinc-900">
+                {[
+                  "Code",
+                  "Discount",
+                  "Min Order",
+                  "Expiry",
+                  "Usage",
+                  "Status",
+                  "Actions",
+                ].map((h) => (
+                  <span
+                    key={h}
+                    className="text-zinc-500 text-xs font-semibold uppercase tracking-widest"
                   >
-                    {coupon.isActive ? (
-                      <ToggleRight className="w-4 h-4 text-green-400" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(coupon._id)}
-                    classNam
-                    e="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 transition-all"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                    {h}
+                  </span>
+                ))}
               </div>
-            ))}
+
+              {/* Rows */}
+              {coupons
+                .filter((c) => c.code.toLowerCase().includes(search.toLowerCase()))
+                .map((coupon) => (
+                  <div
+                    key={coupon._id}
+                    className="grid grid-cols-7 px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all items-center"
+                  >
+                    {/* Code */}
+                    <span className="text-xs font-bold px-2 py-1 rounded-lg bg-zinc-800 text-[#FF6B35] tracking-widest border border-zinc-700 w-fit">
+                      {coupon.code}
+                    </span>
+
+                    {/* Discount */}
+                    <span className="text-white text-sm font-medium">
+                      {coupon.discountType === "percentage"
+                        ? `${coupon.discountValue}%`
+                        : `₹${coupon.discountValue}`}
+                    </span>
+
+                    {/* Min Order */}
+                    <span className="text-zinc-400 text-sm">
+                      ₹{coupon.minOrder}
+                    </span>
+
+                    {/* Expiry */}
+                    <span className="text-zinc-400 text-sm">
+                      {new Date(coupon.expiryDate).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
+
+                    {/* Usage */}
+                    <span className="text-zinc-400 text-sm">
+                      {coupon.usedCount}/{coupon.maxUses}
+                    </span>
+
+                    {/* Status */}
+                    <span
+                      className={`text-xs font-bold px-3 py-1 rounded-full w-fit ${
+                        coupon.isActive
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-red-500/20 text-red-400"
+                      }`}
+                    >
+                      {coupon.isActive ? "Active" : "Inactive"}
+                    </span>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleToggle(coupon._id)}
+                        className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
+                      >
+                        {coupon.isActive ? (
+                          <ToggleRight className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <ToggleLeft className="w-4 h-4" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => handleDelete(coupon._id)}
+                        className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 transition-all"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
 
           {/* Empty state */}
           {coupons.filter((c) =>

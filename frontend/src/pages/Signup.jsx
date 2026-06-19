@@ -49,15 +49,19 @@ const Signup = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-6 h-screen overflow-hidden"
-      style={{ backgroundColor: "#0F172A", fontFamily: "'Poppins', sans-serif" }}
+      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+      style={{ backgroundColor: "#0F172A" }}
     >
-      <div className="w-full max-w-3xl flex flex-row rounded-3xl overflow-hidden border border-[#334155] shadow-2xl shadow-black/60">
+      {/* Background glow */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-[0.06] blur-[100px] pointer-events-none" style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full opacity-[0.04] blur-[80px] pointer-events-none" style={{ background: "radial-gradient(circle, #7C3AED, transparent)" }} />
+
+      <div className="w-full max-w-3xl flex flex-row rounded-3xl overflow-hidden border border-[#334155]/50 shadow-2xl shadow-black/60 relative z-10 animate-scale-in">
 
         {/* LEFT — Visual Side */}
         <div
           className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 relative overflow-hidden"
-          style={{ backgroundColor: "#1A1A1A" }}
+          style={{ backgroundColor: "#1E293B" }}
         >
           {/* Glow blobs */}
           <div className="absolute top-0 right-0 w-56 h-56 rounded-full opacity-20 translate-x-1/2 -translate-y-1/2"
@@ -68,28 +72,25 @@ const Signup = () => {
           {/* Food icons cluster */}
           <div className="relative z-10 flex flex-col items-center mb-6">
             <div className="flex gap-3 text-4xl mb-2">
-              <span>🍣</span>
-              <span>🥗</span>
+              <span className="animate-float" style={{ animationDelay: "0.2s" }}>🍣</span>
+              <span className="animate-float" style={{ animationDelay: "0.4s" }}>🥗</span>
             </div>
-            <div className="text-6xl my-1">🍕</div>
+            <div className="text-6xl my-1 animate-float">🍕</div>
             <div className="flex gap-3 text-4xl mt-2">
-              <span>🧆</span>
-              <span>🍩</span>
+              <span className="animate-float" style={{ animationDelay: "0.6s" }}>🧆</span>
+              <span className="animate-float" style={{ animationDelay: "0.8s" }}>🍩</span>
             </div>
           </div>
 
           <h2 className="text-2xl font-bold text-[#F1F5F9] text-center mb-3 relative z-10">
-            1000+ dishes <span style={{ color: "#FF6B35" }}>await.</span>
+            1000+ dishes <span className="text-gradient">await.</span>
           </h2>
-          <p className="text-zinc-500 text-sm text-center relative z-10 leading-relaxed">
+          <p className="text-[#64748B] text-sm text-center relative z-10 leading-relaxed">
             Create your account and start<br />ordering in seconds.
           </p>
 
           {/* Bottom tag */}
-          <p
-            className="absolute bottom-6 text-xs tracking-widest uppercase z-10 font-semibold"
-            style={{ color: "#FF6B35" }}
-          >
+          <p className="absolute bottom-6 text-xs tracking-[0.15em] uppercase z-10 font-semibold text-gradient">
             🌙 NightBite
           </p>
         </div>
@@ -99,16 +100,13 @@ const Signup = () => {
           className="w-full md:w-1/2 p-8 flex flex-col justify-center"
           style={{ backgroundColor: "#0F172A" }}
         >
-          <p
-            className="text-xs tracking-widest uppercase mb-2 font-semibold"
-            style={{ color: "#FF6B35" }}
-          >
+          <p className="text-xs tracking-[0.15em] uppercase mb-2 font-semibold text-gradient">
             Get Started
           </p>
           <h1 className="text-3xl font-bold text-[#F1F5F9] mb-1 leading-tight">
             Join
           </h1>
-          <h1 className="text-3xl font-bold mb-6 leading-tight" style={{ color: "#FF6B35" }}>
+          <h1 className="text-3xl font-bold mb-6 leading-tight text-gradient">
             NightBite 🌙
           </h1>
 
@@ -151,9 +149,9 @@ const Signup = () => {
 
           </div>
 
-          <p className="text-center text-xs text-zinc-400 mt-5">
+          <p className="text-center text-xs text-[#64748B] mt-5">
             Already have an account?{" "}
-            <Link to="/" className="hover:underline font-semibold" style={{ color: "#FF6B35" }}>
+            <Link to="/" className="hover:underline font-semibold text-gradient">
               Login
             </Link>
           </p>

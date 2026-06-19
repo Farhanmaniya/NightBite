@@ -3,13 +3,30 @@ import MenuCard from "../components/MenuCard";
 import Footer from "../components/Footer";
 import OfferBanner from "../components/OfferBanner";
 import { useState, useEffect } from "react";
-import { Flame, Sparkles, Star } from "lucide-react";
+import { Flame, Sparkles, Star, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import API from "../api/axios";
 import Loader from "../components/Loader";
 
+const SectionTitle = ({ icon: Icon, title, link }) => (
+  <div className="flex items-center justify-between mb-8">
+    <h2 className="text-[#F1F5F9] font-bold text-2xl animate-fade-in-up">
+      <span className="flex items-center gap-2.5">
+        <Icon className="w-6 h-6 text-[#FF6B35]" />
+        {title}
+      </span>
+    </h2>
+    {link && (
+      <Link to={link} className="flex items-center gap-1.5 text-sm text-[#94A3B8] hover:text-[#FF6B35] transition-colors duration-200">
+        View All <ArrowRight className="w-3.5 h-3.5" />
+      </Link>
+    )}
+  </div>
+);
+
 const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Fixed: Init as true instead of empty array
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -27,6 +44,11 @@ const Home = () => {
   }, []);
 
   if (loading) return <Loader />;
+
+  const popularItems = menuItems.filter((item) => item.tag === "popular");
+  const newItems = menuItems.filter((item) => item.tag === "new");
+  const featuredItems = menuItems.filter((item) => item.tag === "featured");
+
   return (
     <main
       style={{ backgroundColor: "#0F172A", minHeight: "100vh" }}
@@ -35,58 +57,52 @@ const Home = () => {
       {/* Hero Section */}
       <Hero />
 
-      {/* 🛠️ Pulled OfferBanner UP using negative margin (-mt-16 to -mt-24) to close the gap */}
+      {/* Offer Banners */}
       <div className="-mt-16 sm:-mt-20 md:-mt-24 relative z-30">
         <OfferBanner />
       </div>
 
-      {/* Popular Items Section — Reduced top margin from my-16 to mt-10 mb-16 */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 mt-10 mb-16 w-full">
-        <h2 className="text-[#F1F5F9] font-bold text-2xl mb-8">
-          <span className="flex items-center gap-2">
-            <Flame className="w-6 h-6 text-[#F6B835]" /> Popular Right Now
-          </span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {menuItems
-            .filter((item) => item.tag === "popular")
-            .map((item) => (
-              <MenuCard key={item.id} item={item} />
+      {/* Popular Items */}
+      {popularItems.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 mt-12 mb-16 w-full">
+          <SectionTitle icon={Flame} title="Popular Right Now" link="/menu" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {popularItems.map((item, index) => (
+              <div key={item.id || item._id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <MenuCard item={item} />
+              </div>
             ))}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
-      {/* New Arrivals Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 my-16 w-full">
-        <h2 className="text-[#F1F5F9] font-bold text-2xl mb-8">
-          <span className="flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-[#F6B835]" /> New Arrivals
-          </span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {menuItems
-            .filter((item) => item.tag === "new")
-            .map((item) => (
-              <MenuCard key={item.id} item={item} />
+      {/* New Arrivals */}
+      {newItems.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 my-16 w-full">
+          <SectionTitle icon={Sparkles} title="New Arrivals" link="/menu" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {newItems.map((item, index) => (
+              <div key={item.id || item._id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <MenuCard item={item} />
+              </div>
             ))}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
-      {/* Featured Items Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 my-16 w-full">
-        <h2 className="text-[#F1F5F9] font-bold text-2xl mb-8">
-          <span className="flex items-center gap-2">
-            <Star className="w-6 h-6 text-[#F6B835]" /> Chef's Picks
-          </span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {menuItems
-            .filter((item) => item.tag === "featured")
-            .map((item) => (
-              <MenuCard key={item.id} item={item} />
+      {/* Chef's Picks */}
+      {featuredItems.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 my-16 w-full">
+          <SectionTitle icon={Star} title="Chef's Picks" link="/menu" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredItems.map((item, index) => (
+              <div key={item.id || item._id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <MenuCard item={item} />
+              </div>
             ))}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <div className="mt-20">
         <Footer />

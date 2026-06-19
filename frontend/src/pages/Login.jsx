@@ -25,7 +25,6 @@ const Login = () => {
     return newErrors;
   };
 
-
   const handleSubmit = async () => {
     const existingToken = localStorage.getItem("token");
     const existingUser = JSON.parse(localStorage.getItem("user"));
@@ -41,7 +40,7 @@ const Login = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return ;
+      return;
     }
 
     try {
@@ -50,14 +49,12 @@ const Login = () => {
         password: form.password
       });
 
-      // Save token and user to localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       toast.success("Welcome Back! ");
-      // Navigate based on role
       if (response.data.user.role === "admin") {
         navigate("/admin/dashboard");
-      }else {
+      } else {
         navigate("/home");
       }
 
@@ -69,10 +66,14 @@ const Login = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4"
-      style={{ backgroundColor: "#0F172A", fontFamily: "'Poppins', sans-serif" }}
+      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+      style={{ backgroundColor: "#0F172A" }}
     >
-      <div className="w-full max-w-3xl flex flex-row rounded-3xl overflow-hidden border border[#334155] shadow-2xl shadow-black/60">
+      {/* Background glow */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-[0.06] blur-[100px] pointer-events-none" style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full opacity-[0.04] blur-[80px] pointer-events-none" style={{ background: "radial-gradient(circle, #7C3AED, transparent)" }} />
+
+      <div className="w-full max-w-3xl flex flex-row rounded-3xl overflow-hidden border border-[#334155]/50 shadow-2xl shadow-black/60 relative z-10 animate-scale-in">
 
         {/* LEFT — Visual Side */}
         <div
@@ -85,30 +86,24 @@ const Login = () => {
           <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full opacity-10 translate-x-1/2 translate-y-1/2"
             style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
 
-          {/* Food icons cluster */}
+          {/* Food icons */}
           <div className="relative z-10 flex flex-col items-center mb-6">
-            <div className="text-6xl mb-2">🍔</div>
+            <div className="text-6xl mb-2 animate-float">🍔</div>
             <div className="flex gap-4 text-3xl">
-              <span>🍕</span>
-              <span>🌮</span>
-              <span>🍜</span>
+              <span className="animate-float" style={{ animationDelay: "0.3s" }}>🍕</span>
+              <span className="animate-float" style={{ animationDelay: "0.6s" }}>🌮</span>
+              <span className="animate-float" style={{ animationDelay: "0.9s" }}>🍜</span>
             </div>
           </div>
 
-          <h2
-            className="text-2xl font-bold text-[#F1F5F9] text-center mb-3 relative z-10"
-          >
-            Hungry? <span style={{ color: "#FF6B35" }}>We got you.</span>
+          <h2 className="text-2xl font-bold text-[#F1F5F9] text-center mb-3 relative z-10">
+            Hungry? <span className="text-gradient">We got you.</span>
           </h2>
-          <p className="text-zinc-500 text-sm text-center relative z-10 leading-relaxed">
+          <p className="text-[#64748B] text-sm text-center relative z-10 leading-relaxed">
             Login and get your favourite<br />food delivered fast.
           </p>
 
-          {/* Bottom tag */}
-          <p
-            className="absolute bottom-6 text-xs tracking-widest uppercase z-10 font-semibold"
-            style={{ color: "#FF6B35" }}
-          >
+          <p className="absolute bottom-6 text-xs tracking-[0.15em] uppercase z-10 font-semibold text-gradient">
             🌙 NightBite
           </p>
         </div>
@@ -118,16 +113,13 @@ const Login = () => {
           className="w-full md:w-1/2 p-8 flex flex-col justify-center"
           style={{ backgroundColor: "#0F172A" }}
         >
-          <p
-            className="text-xs tracking-widest uppercase mb-2 font-semibold"
-            style={{ color: "#FF6B35" }}
-          >
+          <p className="text-xs tracking-[0.15em] uppercase mb-2 font-semibold text-gradient">
             Welcome Back
           </p>
           <h1 className="text-3xl font-bold text-[#F1F5F9] mb-1 leading-tight">
             Login to
           </h1>
-          <h1 className="text-3xl font-bold mb-6 leading-tight" style={{ color: "#FF6B35" }}>
+          <h1 className="text-3xl font-bold mb-6 leading-tight text-gradient">
             NightBite 🍔
           </h1>
 
@@ -149,32 +141,31 @@ const Login = () => {
               error={errors.password}
             />
 
-            {/* Forgot Password */}
             <div className="flex justify-end -mt-2">
               <Link
                 to="/forgot-password"
-                className="text-xs text-zinc-500 hover:text-[#FF6B35] transition-colors duration-200"
+                className="text-xs text-[#64748B] hover:text-[#FF6B35] transition-colors duration-200"
               >
                 Forgot password?
               </Link>
             </div>
 
             <div className="mt-1">
-              <Button onClick={handleSubmit}><span className="flex items-center justify-center gap-2">
+              <Button onClick={handleSubmit}>
+                <span className="flex items-center justify-center gap-2">
                   LOGIN <LogIn className="w-4 h-4" />
-                </span></Button>
+                </span>
+              </Button>
             </div>
-
           </div>
 
-          <p className="text-center text-xs text-zinc-400 mt-5">
+          <p className="text-center text-xs text-[#64748B] mt-5">
             No account?{" "}
-            <Link to="/signup" className="hover:underline font-semibold" style={{ color: "#FF6B35" }}>
+            <Link to="/signup" className="hover:underline font-semibold text-gradient">
               Sign up free
             </Link>
           </p>
         </div>
-
       </div>
     </div>
   );
