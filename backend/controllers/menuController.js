@@ -90,7 +90,7 @@ const updateMenuItem = async (req, res) => {
 
     res.status(200).json(updatedItem);
   } catch (error) {
-    res.status(500).josn({
+    res.status(500).json({
       message: "Something went wrong. Please try again.",
     });
   }

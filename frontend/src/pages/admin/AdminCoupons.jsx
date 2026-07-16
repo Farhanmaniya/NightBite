@@ -66,9 +66,32 @@ const AdminCoupons = () => {
   };
 
   const handleCreate = async () => {
+    if (!form.code.trim()) {
+      toast.error("Coupon code is required");
+      return;
+    }
+    if (!form.discountValue || isNaN(form.discountValue) || Number(form.discountValue) <= 0) {
+      toast.error("Discount value must be a positive number");
+      return;
+    }
+    if (!form.expiryDate) {
+      toast.error("Expiry date is required");
+      return;
+    }
+
     const toastId = toast.loading("Creating coupon...");
     try {
-      const res = await API.post("/coupons", form);
+      // Prepare sanitized payload
+      const payload = {
+        code: form.code.trim().toUpperCase(),
+        discountType: form.discountType,
+        discountValue: Number(form.discountValue),
+        minOrder: form.minOrder ? Number(form.minOrder) : undefined,
+        maxUses: form.maxUses ? Number(form.maxUses) : undefined,
+        expiryDate: form.expiryDate,
+      };
+
+      const res = await API.post("/coupons", payload);
       setCoupons([...coupons, res.data]);
       setShowModal(false);
       setForm({

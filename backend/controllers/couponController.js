@@ -13,9 +13,30 @@ const getAllCoupons = async (req, res) => {
 // @desc Create coupon (admin)
 const createCoupon = async (req, res) => {
   try {
-    const coupon = await Coupon.create(req.body);
+    const couponData = { ...req.body };
+
+    // Convert empty string numbers/dates to undefined to trigger schema defaults and validation
+    if (couponData.minOrder === "") delete couponData.minOrder;
+    if (couponData.maxUses === "") delete couponData.maxUses;
+    if (couponData.discountValue === "") delete couponData.discountValue;
+    if (couponData.expiryDate === "") delete couponData.expiryDate;
+
+    const coupon = await Coupon.create(couponData);
     res.status(201).json(coupon);
   } catch (error) {
+    console.error("Error creating coupon:", error);
+
+    // Check for duplicate key error (code 11000)
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Coupon code already exists." });
+    }
+
+    // Handle Mongoose validation errors
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((val) => val.message);
+      return res.status(400).json({ message: messages.join(", ") });
+    }
+
     res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
@@ -50,14 +71,14 @@ const validateCoupon = async (req, res) => {
     }
 
     // Check min order
-    if (orderTotal < coupon.minOrder) {
+    if (coupon.minOrder !== null && coupon.minOrder !== undefined && orderTotal < coupon.minOrder) {
       return res.status(400).json({
         message: `Minimum order ₹${coupon.minOrder} required`,
       });
     }
 
     // Check max uses
-    if (coupon.usedCount >= coupon.maxUses) {
+    if (coupon.maxUses !== null && coupon.maxUses !== undefined && coupon.usedCount >= coupon.maxUses) {
       return res.status(400).json({ message: "Coupon usage limit reached" });
     }
 

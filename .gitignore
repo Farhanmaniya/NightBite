@@ -94,3 +94,8 @@ ehthumbs.db
 # Docker
 .env.docker
 docker-compose.override.yml
+
+# Ignore all markdown files except README.md
+*.md
+!README.md
+
