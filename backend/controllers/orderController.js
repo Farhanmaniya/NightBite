@@ -29,6 +29,13 @@ const placeOrder = async (req, res) => {
     }
     res.status(201).json(order);
   } catch (error) {
+    console.error("Error placing order:", error);
+
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((val) => val.message);
+      return res.status(400).json({ message: messages.join(", ") });
+    }
+
     res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };

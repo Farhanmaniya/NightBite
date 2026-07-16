@@ -143,7 +143,7 @@ const Cart = () => {
       setShowAddressModal(false);
     } catch (error) {
       toast.dismiss(toastId);
-      toast.error("Order Failed!");
+      toast.error(error.response?.data?.message || "Order Failed!");
     }
   };
 
