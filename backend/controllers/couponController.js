@@ -59,6 +59,11 @@ const validateCoupon = async (req, res) => {
   try {
     const { code, orderTotal } = req.body;
 
+    // Prevent NoSQL Injection
+    if (typeof code !== "string") {
+      return res.status(400).json({ message: "Invalid input types" });
+    }
+
     // Find coupon
     const coupon = await Coupon.findOne({ code, isActive: true });
     if (!coupon) {

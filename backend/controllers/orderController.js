@@ -1,9 +1,53 @@
 const Order = require("../models/Order");
+const crypto = require("crypto");
 
 const placeOrder = async (req, res) => {
   try {
-    const { items, totalAmount, address, paymentMethod, couponCode, discount } =
-      req.body;
+    const { 
+      items, 
+      totalAmount, 
+      address, 
+      paymentMethod, 
+      couponCode, 
+      discount,
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature 
+    } = req.body;
+
+    // Prevent NoSQL Injection / Type Tampering
+    if (
+      typeof address !== "string" || 
+      typeof paymentMethod !== "string" ||
+      (couponCode !== undefined && couponCode !== null && typeof couponCode !== "string")
+    ) {
+      return res.status(400).json({ message: "Invalid input types" });
+    }
+
+    // Verify online payment signature if paymentMethod is Online
+    if (paymentMethod === "Online") {
+      if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+        return res.status(400).json({ message: "Online payment details are missing" });
+      }
+      if (
+        typeof razorpayOrderId !== "string" ||
+        typeof razorpayPaymentId !== "string" ||
+        typeof razorpaySignature !== "string"
+      ) {
+        return res.status(400).json({ message: "Invalid payment detail types" });
+      }
+
+      // Verify signature
+      const body = razorpayOrderId + "|" + razorpayPaymentId;
+      const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(body.toString())
+        .digest("hex");
+
+      if (expectedSignature !== razorpaySignature) {
+        return res.status(400).json({ message: "Payment verification failed. Order not placed." });
+      }
+    }
 
     const order = await Order.create({
       user: req.user.id,

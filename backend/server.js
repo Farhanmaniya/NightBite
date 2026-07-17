@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const helmet = require("helmet");
 const connectDB = require("./config/db");
 const { apiLimiter } = require("./middleware/rateLimiter");
 // const routes = require("./routes/authRoute");
@@ -11,6 +12,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(helmet());
 app.use("/api", apiLimiter);
 
 // Middleware
@@ -42,6 +44,18 @@ app.use("/api/coupons", require("./routes/couponRoute"));
 app.use("/api/payment", require("./routes/paymentRoute"));
 app.use("/api/contact", require("./routes/contactRoute"));
 app.use("/api/settings", require("./routes/settingsRoute"));
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  if (err.name === "MulterError") {
+    return res.status(400).json({ message: `Upload error: ${err.message}` });
+  }
+  if (err.message && err.message.includes("Only image files are allowed!")) {
+    return res.status(400).json({ message: err.message });
+  }
+  res.status(500).json({ message: "Something went wrong. Please try again." });
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;

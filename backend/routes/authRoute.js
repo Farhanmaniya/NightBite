@@ -12,7 +12,7 @@ router.post("/register", authLimiter, UserRegister);
 // @desc Login existing User
 router.post("/login", authLimiter, UserLogin);
 
-router.get("/users", getAllUsers);
+router.get("/users", protect, adminOnly, getAllUsers);
 router.get("/dashboard", protect, adminOnly, getDashboardStats);
 router.get("/profile", protect, getProfile);
 router.put("/profile", protect, updateProfile);

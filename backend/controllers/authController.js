@@ -8,6 +8,11 @@ const UserRegister = async (req, res) => {
     // Get data from request body
     const { name, email, password } = req.body;
 
+    // Prevent NoSQL Injection
+    if (typeof email !== "string" || typeof password !== "string" || typeof name !== "string") {
+      return res.status(400).json({ message: "Invalid input types" });
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -45,6 +50,11 @@ const UserLogin = async (req, res) => {
   try {
     // Get data from request body
     const { email, password } = req.body;
+
+    // Prevent NoSQL Injection
+    if (typeof email !== "string" || typeof password !== "string") {
+      return res.status(400).json({ message: "Invalid input types" });
+    }
 
     // Check if user exists
     const user = await User.findOne({ email });
@@ -96,6 +106,16 @@ const getAllUsers = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { name, phone, address } = req.body;
+
+    // Prevent NoSQL Injection / Type Tampering
+    if (
+      (name !== undefined && typeof name !== "string") ||
+      (phone !== undefined && typeof phone !== "string") ||
+      (address !== undefined && typeof address !== "string")
+    ) {
+      return res.status(400).json({ message: "Invalid input types" });
+    }
+
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { name, phone, address },

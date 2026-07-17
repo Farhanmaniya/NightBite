@@ -80,7 +80,11 @@ const Cart = () => {
             });
 
             if (verifyRes.data.verified) {
-              await submitOrder("Online");
+              await submitOrder("Online", {
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              });
             }
           } catch (error) {
             toast.error("Payment verification failed");
@@ -115,7 +119,7 @@ const Cart = () => {
     }
   };
 
-  const submitOrder = async (method = "COD") => {
+  const submitOrder = async (method = "COD", paymentDetails = {}) => {
     const toastId = toast.loading("Placing your order...");
     try {
       const orderData = {
@@ -130,6 +134,7 @@ const Cart = () => {
         paymentMethod: method,
         couponCode,
         discount,
+        ...paymentDetails,
       };
 
       await API.post("/orders", orderData);
