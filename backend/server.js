@@ -12,18 +12,33 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use("/api", apiLimiter);
 
 // Middleware
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://night-bite-azure.vercel.app",
+  "https://night-bite-ciy5.vercel.app",
+  "https://night-bite-cfys.vercel.app",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "https://night-bite-azure.vercel.app",
-      "https://night-bite-ciy5.vercel.app",
-    ],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        /\.vercel\.app$/.test(origin) ||
+        (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL)
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   }),
 );

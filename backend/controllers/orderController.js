@@ -37,6 +37,11 @@ const placeOrder = async (req, res) => {
         return res.status(400).json({ message: "Invalid payment detail types" });
       }
 
+      if (!process.env.RAZORPAY_KEY_SECRET) {
+        console.error("RAZORPAY_KEY_SECRET is missing in server environment variables!");
+        return res.status(500).json({ message: "Payment configuration error on server" });
+      }
+
       // Verify signature
       const body = razorpayOrderId + "|" + razorpayPaymentId;
       const expectedSignature = crypto

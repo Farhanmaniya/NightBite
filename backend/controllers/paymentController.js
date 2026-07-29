@@ -25,6 +25,12 @@ const verifyPayment = async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
+        // Check secret presence
+        if (!process.env.RAZORPAY_KEY_SECRET) {
+            console.error("RAZORPAY_KEY_SECRET is missing in server environment variables!");
+            return res.status(500).json({ message: "Payment configuration error on server" });
+        }
+
         // Create signature
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
