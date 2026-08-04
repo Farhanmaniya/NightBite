@@ -16,6 +16,11 @@ const Menu = () => {
   const urlSearch = searchParams.get("search") || "";
 
   const [search, setSearch] = useState(urlSearch);
+
+  useEffect(() => {
+    setSearch(urlSearch);
+  }, [urlSearch]);
+
   useEffect(() => {
     const fetchMenu = async () => {
       try {

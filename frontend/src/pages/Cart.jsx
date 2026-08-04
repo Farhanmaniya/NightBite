@@ -22,12 +22,14 @@ const Cart = () => {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
+        console.log("🔍 DEBUG [Cart]: Fetching user profile address...");
         const res = await API.get("/auth/profile");
-        if (res.data.address) {
+        console.log("✅ DEBUG [Cart]: Profile address fetched =", res.data?.address);
+        if (res.data?.address) {
           setAddress(res.data.address);
         }
       } catch (error) {
-        console.log(error);
+        console.error("❌ DEBUG [Cart Profile Fetch Error]: Status", error.response?.status, "| Message:", error.response?.data?.message || error.message);
       }
     };
     fetchAddress();
@@ -58,6 +60,7 @@ const Cart = () => {
   const handleRazorpayPayment = async () => {
     const toastId = toast.loading("Initiating payment...");
     try {
+      console.log("🔍 DEBUG [Cart Razorpay]: Creating payment order for amount =", finalTotal);
       const res = await API.post("/payment/create-order", {
         amount: finalTotal,
       });
@@ -73,6 +76,7 @@ const Cart = () => {
         order_id: res.data.id,
         handler: async (response) => {
           try {
+            console.log("🔍 DEBUG [Cart Razorpay]: Verifying payment response =", response);
             const verifyRes = await API.post("/payment/verify", {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -87,6 +91,7 @@ const Cart = () => {
               });
             }
           } catch (error) {
+            console.error("❌ DEBUG [Cart Razorpay Verify Error]:", error.response?.data || error.message);
             toast.error("Payment verification failed");
           }
         },
@@ -102,12 +107,14 @@ const Cart = () => {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
+      console.error("❌ DEBUG [Cart Razorpay Initiate Error]:", error.response?.data || error.message);
       toast.dismiss(toastId);
       toast.error("Payment initiation failed");
     }
   };
 
   const handlePlaceOrder = async () => {
+    console.log("🔍 DEBUG [Cart handlePlaceOrder]: Address =", address, "| PaymentMethod =", paymentMethod);
     if (!address.trim()) {
       setShowAddressModal(true);
       return;
@@ -121,23 +128,28 @@ const Cart = () => {
 
   const submitOrder = async (method = "COD", paymentDetails = {}) => {
     const toastId = toast.loading("Placing your order...");
+    const safeMethod = (typeof method === "string") ? method : (paymentMethod || "COD");
+    console.log("🚀 DEBUG [Cart submitOrder]: Submitting order...", { safeMethod, address, cartCount: cartItems.length });
     try {
       const orderData = {
         items: cartItems.map((item) => ({
-          menuItem: item._id,
+          menuItem: item._id || item.id,
           name: item.name,
-          price: item.price,
-          quantity: item.quantity,
+          price: Number(item.price) || 0,
+          quantity: Number(item.quantity) || 1,
         })),
-        totalAmount: finalTotal,
-        address,
-        paymentMethod: method,
-        couponCode,
-        discount,
+        totalAmount: Math.max(0, finalTotal),
+        address: address.trim(),
+        paymentMethod: safeMethod,
+        couponCode: couponCode || "",
+        discount: discount || 0,
         ...paymentDetails,
       };
 
-      await API.post("/orders", orderData);
+      console.log("📦 DEBUG [Cart submitOrder]: Payload =", orderData);
+      const res = await API.post("/orders", orderData);
+      console.log("🎉 DEBUG [Cart submitOrder]: Order created response =", res.data);
+
       await API.put("/auth/profile", { address });
 
       toast.dismiss(toastId);
@@ -147,8 +159,10 @@ const Cart = () => {
       setCouponCode("");
       setShowAddressModal(false);
     } catch (error) {
+      console.error("❌ DEBUG [Cart submitOrder Error]: Status =", error.response?.status, "| Data =", error.response?.data || error.message);
       toast.dismiss(toastId);
-      toast.error(error.response?.data?.message || "Order Failed!");
+      const errorMsg = error.response?.data?.message || error.message || "Order Failed!";
+      toast.error(`Order Failed: ${errorMsg}`);
     }
   };
 
@@ -277,6 +291,22 @@ const Cart = () => {
                     </button>
                   </div>
 
+                  {/* 1-Click Coupon Suggestion Chips */}
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] text-[#64748B] font-semibold">Available:</span>
+                    {["NIGHTBITE20", "FREEPIZZA", "BOGO50"].map((cCode) => (
+                      <button
+                        key={cCode}
+                        onClick={() => {
+                          setCouponCode(cCode);
+                        }}
+                        className="text-[10px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 hover:bg-[#FF6B35]/20 border border-[#FF6B35]/20 px-2 py-0.5 rounded-md transition-all active:scale-95"
+                      >
+                        {cCode}
+                      </button>
+                    ))}
+                  </div>
+
                   {couponError && (
                     <p className="text-red-400 text-xs">{couponError}</p>
                   )}
@@ -395,7 +425,7 @@ const Cart = () => {
                 Cancel
               </button>
               <button
-                onClick={submitOrder}
+                onClick={() => handlePlaceOrder()}
                 disabled={!address.trim()}
                 className="flex-1 bg-[#FF6B35] hover:bg-[#ff8255] text-white font-bold py-2.5 rounded-xl transition-all text-sm active:scale-95 disabled:opacity-50"
               >

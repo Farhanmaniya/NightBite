@@ -32,7 +32,7 @@ const Dashboard = () => {
         style={{ fontFamily: "'Poppins', sans-serif" }}
       >
         {/* Page Title */}
-        <h1 className="text-white font-bold text-2xl">Dashboard</h1>
+        <h1 className="text-[#F1F5F9] font-bold text-2xl">Dashboard</h1>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -52,20 +52,20 @@ const Dashboard = () => {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-[#1A1A1A] rounded-2xl p-5 border border-zinc-800 flex flex-col gap-2"
+              className="bg-[#1E293B]/60 backdrop-blur-sm rounded-2xl p-5 border border-[#334155]/60 hover:border-[#FF6B35]/30 flex flex-col gap-2 transition-all duration-300 shadow-xl"
             >
               <stat.icon className="w-7 h-7 text-[#FF6B35]" />
-              <p className="text-zinc-500 text-xs">{stat.label}</p>
-              <p className="text-white font-bold text-xl">{stat.value}</p>
+              <p className="text-[#94A3B8] text-xs font-medium">{stat.label}</p>
+              <p className="text-[#F1F5F9] font-bold text-2xl">{stat.value}</p>
             </div>
           ))}
         </div>
 
         {/* Recent Orders */}
-        <div className="bg-[#1A1A1A] rounded-2xl border border-zinc-800 overflow-hidden">
-          <div className="px-6 py-4 border-b border-zinc-800">
+        <div className="bg-[#1E293B]/60 backdrop-blur-sm rounded-2xl border border-[#334155]/60 overflow-hidden shadow-xl">
+          <div className="px-6 py-4 border-b border-[#334155]/60">
             <h2
-              className="text-white font-bold text-base"
+              className="text-[#F1F5F9] font-bold text-base"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
               Recent Orders
@@ -73,27 +73,33 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col">
             {stats?.recentOrders?.length === 0 ? (
-              <div className="text-center text-zinc-500 py-8 text-sm">
+              <div className="text-center text-[#94A3B8] py-8 text-sm">
                 No orders yet.
               </div>
             ) : (
               stats?.recentOrders?.map((order) => (
                 <div
                   key={order._id}
-                  className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-all"
+                  className="flex items-center justify-between px-6 py-4 border-b border-[#334155]/40 hover:bg-white/5 transition-all"
                   style={{ fontFamily: "'Poppins', sans-serif" }}
                 >
-                  <span className="text-zinc-400 text-sm">
+                  <span className="text-[#94A3B8] text-sm font-medium">
                     #{order._id.slice(-6)}
                   </span>
-                  <span className="text-white text-sm font-medium">
+                  <span className="text-[#F1F5F9] text-sm font-semibold">
                     {order.user?.name || "N/A"}
                   </span>
-                  <span className="text-white text-sm">
+                  <span className="text-[#FF6B35] text-sm font-bold">
                     ₹{order.totalAmount}
                   </span>
                   <span
-                    className={`text-xs font-bold px-3 py-1 rounded-full ${order.status === "Delivered" ? "bg-green-500/20 text-green-400" : order.status === "Preparing" ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}`}
+                    className={`text-xs font-bold px-3 py-1 rounded-full ${
+                      order.status === "Delivered"
+                        ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
+                        : order.status === "Preparing"
+                        ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
+                        : "bg-red-500/15 text-red-400 border border-red-500/20"
+                    }`}
                   >
                     {order.status}
                   </span>

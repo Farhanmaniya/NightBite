@@ -44,12 +44,12 @@ const Hero = () => {
     >
       {/* Background gradient mesh */}
       <div
-        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full opacity-[0.07] blur-[100px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }}
+        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.12] blur-[120px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #FF6B35, transparent 70%)" }}
       />
       <div
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-[0.05] blur-[80px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #7C3AED, transparent)" }}
+        className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #38BDF8, transparent 70%)" }}
       />
 
       <div className="max-w-[90%] 2xl:max-w-[85%] mx-auto px-4 sm:px-6 w-full py-24 md:py-32">
@@ -57,11 +57,11 @@ const Hero = () => {
           {/* LEFT */}
           <div className="flex-1 flex flex-col gap-6 w-full">
             {/* Location pill */}
-            <div className="animate-fade-in-up flex items-center gap-2 w-fit px-4 py-2 rounded-full border border-[#334155]/60 bg-[#1E293B]/50 backdrop-blur-sm">
+            <div className="animate-fade-in-up flex items-center gap-2 w-fit px-4 py-2 rounded-full border border-[#FF6B35]/30 bg-[#1E293B]/70 backdrop-blur-md shadow-lg shadow-[#FF6B35]/5">
               <MapPin className="w-3.5 h-3.5 text-[#FF6B35]" />
               <span className="text-xs text-[#94A3B8]">
                 Delivering to{" "}
-                <span className="text-[#F1F5F9] font-medium">
+                <span className="text-[#F1F5F9] font-semibold">
                   Nadiad, Gujarat
                 </span>
               </span>
@@ -69,11 +69,11 @@ const Hero = () => {
 
             {/* Headline — stagger reveal */}
             <div className="flex flex-col gap-2">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F1F5F9] leading-tight animate-fade-in-up stagger-1">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-[#F1F5F9] leading-tight animate-fade-in-up stagger-1 tracking-tight">
                 {settings.heroHeadline}
               </h1>
               <h1
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in-up stagger-2 text-gradient"
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight animate-fade-in-up stagger-2 text-gradient tracking-tight"
               >
                 {settings.heroSubheadline}
               </h1>
@@ -83,7 +83,7 @@ const Hero = () => {
             </div>
 
             {/* Search */}
-            <div className="animate-fade-in-up stagger-4 flex items-center gap-2 bg-[#1E293B]/60 backdrop-blur-sm border border-[#334155]/60 rounded-2xl px-4 py-3.5 max-w-xl focus-within:border-[#FF6B35] focus-within:shadow-lg focus-within:shadow-[#FF6B35]/5 transition-all duration-300">
+            <div className="animate-fade-in-up stagger-4 flex items-center gap-2 bg-[#1E293B]/80 backdrop-blur-md border border-[#334155]/80 rounded-2xl px-4 py-3.5 max-w-xl focus-within:border-[#FF6B35] focus-within:ring-2 focus-within:ring-[#FF6B35]/20 focus-within:shadow-xl focus-within:shadow-[#FF6B35]/10 transition-all duration-300">
               <Search className="w-4 h-4 text-[#64748B] shrink-0" />
               <input
                 type="text"
@@ -91,13 +91,13 @@ const Hero = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Search food or restaurant..."
-                className="bg-transparent text-sm text-[#F1F5F9] placeholder-[#64748B] outline-none flex-1"
+                className="bg-transparent text-sm text-[#F1F5F9] placeholder-[#64748B] outline-none flex-1 font-medium"
               />
               <button
                 onClick={handleSearch}
-                className="flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl text-white bg-[#FF6B35] hover:bg-[#ff8255] transition-all duration-200 active:scale-95 hover:shadow-md hover:shadow-[#FF6B35]/20"
+                className="flex items-center gap-1.5 text-xs font-bold px-5 py-2.5 rounded-xl text-white bg-[#FF6B35] hover:bg-[#ff8255] transition-all duration-300 active:scale-95 hover:shadow-lg hover:shadow-[#FF6B35]/30"
               >
-                Search <ArrowRight className="w-3 h-3" />
+                Search <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
@@ -112,10 +112,10 @@ const Hero = () => {
                 },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col">
-                  <span className="text-xl font-bold text-[#F1F5F9]">
+                  <span className="text-2xl font-black text-[#F1F5F9]">
                     {stat.value}
                   </span>
-                  <span className="text-xs text-[#64748B]">{stat.label}</span>
+                  <span className="text-xs font-medium text-[#64748B]">{stat.label}</span>
                 </div>
               ))}
             </div>
@@ -126,38 +126,43 @@ const Hero = () => {
             <div className="relative w-72 h-72 md:w-80 md:h-80 scale-90 sm:scale-100">
               {/* Glow */}
               <div
-                className="absolute inset-0 rounded-full opacity-20 animate-glow-pulse"
+                className="absolute inset-0 rounded-full opacity-30 animate-pulse"
                 style={{
-                  background: "radial-gradient(circle, #FF6B35, transparent)",
+                  background: "radial-gradient(circle, #FF6B35 0%, transparent 70%)",
                 }}
               />
 
               {/* Center circle */}
               <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="w-44 h-44 md:w-48 md:h-48 rounded-full bg-[#1E293B]/80 backdrop-blur-sm border border-[#334155]/60 shadow-2xl shadow-black/30 flex items-center justify-center hover:scale-105 transition-transform duration-500">
-                  <span className="text-7xl">{settings.centerEmoji}</span>
+                <div className="w-44 h-44 md:w-52 md:h-52 rounded-full bg-[#1E293B]/90 backdrop-blur-md border border-[#FF6B35]/30 shadow-2xl shadow-[#FF6B35]/10 flex items-center justify-center hover:scale-105 transition-transform duration-500">
+                  <span className="text-7xl drop-shadow-lg">{settings.centerEmoji}</span>
                 </div>
               </div>
 
               {/* Floating food cards */}
               {[
-                { pos: "top-0 -left-4", emoji: settings.foodEmojis?.[0] || "🍕", label: "Pizza", delay: "0s" },
-                { pos: "top-0 -right-4", emoji: settings.foodEmojis?.[1] || "🍜", label: "Noodles", delay: "0.3s" },
-                { pos: "bottom-0 -left-4", emoji: settings.foodEmojis?.[2] || "🌮", label: "Tacos", delay: "0.6s" },
-                { pos: "bottom-0 -right-4", emoji: settings.foodEmojis?.[3] || "🍣", label: "Sushi", delay: "0.9s" },
+                { pos: "-top-2 -left-4", emoji: settings.foodEmojis?.[0] || "🍕", label: "Pizza", tag: "🔥 Popular", delay: "0s" },
+                { pos: "-top-2 -right-4", emoji: settings.foodEmojis?.[1] || "🍜", label: "Noodles", tag: "⚡ 20 Min", delay: "0.3s" },
+                { pos: "-bottom-2 -left-4", emoji: settings.foodEmojis?.[2] || "🌮", label: "Tacos", tag: "✨ Fresh", delay: "0.6s" },
+                { pos: "-bottom-2 -right-4", emoji: settings.foodEmojis?.[3] || "🍣", label: "Sushi", tag: "⭐ 4.9★", delay: "0.9s" },
               ].map((item) => (
                 <div
                   key={item.label}
-                  className={`absolute ${item.pos} z-20 flex items-center gap-2 px-3 py-2 rounded-xl glass shadow-lg whitespace-nowrap hover:scale-110 transition-transform duration-300`}
+                  className={`absolute ${item.pos} z-20 flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-[#1E293B]/90 border border-[#334155]/80 backdrop-blur-md shadow-xl hover:border-[#FF6B35]/50 whitespace-nowrap hover:scale-110 transition-all duration-300`}
                   style={{
-                    animation: "float 3s ease-in-out infinite",
+                    animation: "float 3.5s ease-in-out infinite",
                     animationDelay: item.delay,
                   }}
                 >
-                  <span className="text-xl">{item.emoji}</span>
-                  <span className="text-xs text-[#94A3B8] font-medium">
-                    {item.label}
-                  </span>
+                  <span className="text-2xl">{item.emoji}</span>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-[#F1F5F9] font-bold leading-tight">
+                      {item.label}
+                    </span>
+                    <span className="text-[10px] text-[#FF6B35] font-semibold">
+                      {item.tag}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

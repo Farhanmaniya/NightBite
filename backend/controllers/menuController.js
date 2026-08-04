@@ -60,7 +60,7 @@ const updateMenuItem = async (req, res) => {
     const existingItem = await MenuItem.findById(req.params.id);
 
     if (!existingItem) {
-      return re.status(404).json({
+      return res.status(404).json({
         message: "Item not found",
       });
     }

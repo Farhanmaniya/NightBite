@@ -34,6 +34,12 @@ const couponSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    usedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     isActive: {
       type: Boolean,
       default: true,

@@ -1,11 +1,26 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 // 1. Create the context
 const CartContext = createContext();
 
 // 2. Create the provider
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem("nightbite_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("nightbite_cart", JSON.stringify(cartItems));
+    } catch (e) {
+      console.error("Error saving cart to localStorage", e);
+    }
+  }, [cartItems]);
 
   // 1. Add to cart
   const addToCart = (item) => {

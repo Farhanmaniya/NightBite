@@ -15,24 +15,27 @@ const CategoryStrip = ({ onSelect }) => {
   const [active, setActive] = useState(1);
 
   return (
-    <div className="flex overflow-x-auto gap-2.5 px-1 py-1 no-scrollbar">
-      {categories.map((cat) => (
-        <button
-          key={cat.id}
-          onClick={() => {
-            setActive(cat.id);
-            onSelect(cat.label);
-          }}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl whitespace-nowrap transition-all duration-300 ${
-            active === cat.id
-              ? "bg-[#FF6B35] text-white shadow-md shadow-[#FF6B35]/20 scale-[1.02]"
-              : "bg-[#1E293B]/60 text-[#94A3B8] hover:text-white hover:bg-[#334155]/60 border border-[#334155]/40 hover:border-[#FF6B35]/30"
-          }`}
-        >
-          <span className="text-base">{cat.emoji}</span>
-          {cat.label}
-        </button>
-      ))}
+    <div className="flex overflow-x-auto gap-3 px-1 py-2 no-scrollbar">
+      {categories.map((cat) => {
+        const isActive = active === cat.id;
+        return (
+          <button
+            key={cat.id}
+            onClick={() => {
+              setActive(cat.id);
+              onSelect(cat.label);
+            }}
+            className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold rounded-2xl whitespace-nowrap transition-all duration-300 relative ${
+              isActive
+                ? "bg-[#FF6B35] text-white shadow-lg shadow-[#FF6B35]/25 scale-105"
+                : "bg-[#1E293B]/80 text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#334155]/60 border border-[#334155]/60 hover:border-[#FF6B35]/40"
+            }`}
+          >
+            <span className="text-base">{cat.emoji}</span>
+            {cat.label}
+          </button>
+        );
+      })}
     </div>
   );
 };

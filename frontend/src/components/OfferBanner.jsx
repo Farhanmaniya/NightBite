@@ -8,7 +8,7 @@ const banners = [
     title: "20% off first order!",
     subtitle: "New users only. Limited time.",
     code: "NIGHTBITE20",
-    gradient: "linear-gradient(135deg, #FF6B35, #ff8255)",
+    badge: "Special Offer",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const banners = [
     title: "Free Pizza Friday!",
     subtitle: "Order above ₹499 today.",
     code: "FREEPIZZA",
-    gradient: "linear-gradient(135deg, #7C3AED, #9F67FF)",
+    badge: "Weekend Deal",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const banners = [
     title: "Buy 1 Get 1 Drinks",
     subtitle: "Every weekend, all drinks.",
     code: "BOGO50",
-    gradient: "linear-gradient(135deg, #059669, #34D399)",
+    badge: "BOGO Offer",
   },
 ];
 
@@ -39,29 +39,34 @@ const BannerCard = ({ banner }) => {
 
   return (
     <div
-      className="rounded-2xl p-5 flex flex-col justify-between gap-4 h-full shadow-lg shadow-black/10"
-      style={{ background: banner.gradient }}
+      className="bg-[#1E293B]/70 backdrop-blur-md border border-[#FF6B35]/30 hover:border-[#FF6B35]/60 rounded-2xl p-5 flex flex-col justify-between gap-4 h-full shadow-xl shadow-black/20 hover:shadow-[#FF6B35]/10 transition-all duration-300 relative group overflow-hidden"
     >
-      <div className="flex flex-col gap-2">
+      <div className="absolute top-0 right-0 w-24 h-24 bg-[#FF6B35]/10 rounded-full blur-2xl pointer-events-none group-hover:bg-[#FF6B35]/20 transition-all" />
+
+      <div className="flex flex-col gap-2 relative z-10">
         {/* Title */}
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">{banner.emoji}</span>
-          <h3 className="text-white font-bold text-base">{banner.title}</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{banner.emoji}</span>
+            <h3 className="text-[#F1F5F9] font-bold text-base">{banner.title}</h3>
+          </div>
+          <span className="text-[10px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-2.5 py-1 rounded-full border border-[#FF6B35]/20">
+            {banner.badge}
+          </span>
         </div>
 
         {/* Subtitle */}
-        <p className="text-white/80 text-xs">{banner.subtitle}</p>
+        <p className="text-[#94A3B8] text-xs">{banner.subtitle}</p>
       </div>
 
       {/* Coupon Code */}
-      <div className="flex items-center gap-2 bg-black/20 rounded-xl px-3 py-2 mt-auto">
-        <span className="text-white font-bold tracking-widest text-xs flex-1">
+      <div className="flex items-center gap-2 bg-[#0F172A]/80 border border-[#334155]/60 rounded-xl px-3 py-2 mt-auto relative z-10">
+        <span className="text-[#FF6B35] font-black tracking-widest text-xs flex-1">
           {banner.code}
         </span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1 bg-white text-xs font-bold px-3 py-1 rounded-lg hover:bg-zinc-100 transition-all active:scale-95 shrink-0"
-          style={{ color: "#FF6B35" }}
+          className="flex items-center gap-1 bg-[#FF6B35] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#ff8255] transition-all active:scale-95 shrink-0 shadow-md shadow-[#FF6B35]/20"
         >
           {copied ? (
             <><Check className="w-3 h-3" /> Copied!</>

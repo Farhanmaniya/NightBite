@@ -46,6 +46,11 @@ app.use(
 
 app.use(express.json());
 
+// Health check route for Render/Railway uptime monitoring
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date() });
+});
+
 // Test route
 app.get("/", (req, res) => {
   res.json({ message: "NightBite API is running." });
@@ -74,7 +79,7 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
 

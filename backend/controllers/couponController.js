@@ -87,6 +87,11 @@ const validateCoupon = async (req, res) => {
       return res.status(400).json({ message: "Coupon usage limit reached" });
     }
 
+    // Check if current user has already used this coupon
+    if (req.user && coupon.usedBy && coupon.usedBy.some((id) => id.toString() === req.user.id)) {
+      return res.status(400).json({ message: "You have already used this coupon code" });
+    }
+
     // Calculate Discount
     let discount = 0;
     if (coupon.discountType === "percentage") {

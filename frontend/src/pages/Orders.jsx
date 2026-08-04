@@ -101,11 +101,44 @@ const Orders = () => {
                       ))}
                     </div>
 
+                    {/* Order Progress Stepper */}
+                    <div className="border-t border-[#334155]/40 pt-4 pb-2">
+                      <div className="flex items-center justify-between text-xs text-[#94A3B8] mb-2">
+                        <span>Order Progress</span>
+                        <span className="font-semibold text-[#F1F5F9]">{order.status}</span>
+                      </div>
+                      {order.status === "Cancelled" ? (
+                        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-3 py-2 rounded-lg text-center">
+                          This order was cancelled.
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          {["Pending", "Preparing", "Delivered"].map((step, sIdx) => {
+                            const stepsOrder = ["Pending", "Preparing", "Delivered"];
+                            const currentIdx = stepsOrder.indexOf(order.status) !== -1 ? stepsOrder.indexOf(order.status) : 0;
+                            const isDone = sIdx <= currentIdx;
+                            return (
+                              <div key={step} className="flex-1 flex flex-col items-center gap-1">
+                                <div
+                                  className={`h-1.5 w-full rounded-full transition-all ${
+                                    isDone ? "bg-[#FF6B35]" : "bg-[#334155]"
+                                  }`}
+                                />
+                                <span className={`text-[10px] ${isDone ? "text-[#FF6B35] font-bold" : "text-[#64748B]"}`}>
+                                  {step}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
                     {/* Total */}
                     <div className="flex justify-between border-t border-[#334155]/40 pt-3">
                       <span className="text-[#94A3B8] text-sm">Total</span>
                       <span className="text-[#FF6B35] font-bold">
-                        ₹{getOrderTotal(order.items)}
+                        ₹{order.totalAmount || getOrderTotal(order.items)}
                       </span>
                     </div>
                   </div>
