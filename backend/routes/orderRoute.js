@@ -12,6 +12,7 @@ const { protect, adminOnly } = require("../middleware/auth");
 
 // Customer Route
 router.post("/", protect, placeOrder);
+router.get("/my", protect, getMyOrders);
 router.post("/my", protect, getMyOrders);
 
 // Admin Route
